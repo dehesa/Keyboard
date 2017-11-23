@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef location = "group:Karabiner/Karabiner.xcodeproj">
+   </FileRef>
+   <Group location = "group:Playgrounds" name = "Playgrounds">
+       <FileRef location = "group:Karabiner.playground"></FileRef>
+   </Group>
+</Workspace>

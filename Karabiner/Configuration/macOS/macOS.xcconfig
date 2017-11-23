@@ -1,0 +1,7 @@
+// Architecture
+SDKROOT = macosx
+
+// Packaging
+INFOPLIST_FILE = $(SRCROOT)/Configuration/macOS/macOS.plist
+PRODUCT_NAME = $(KARABINER_NAME)
+PRODUCT_BUNDLE_IDENTIFIER = $(KARABINER_ID).sdk
