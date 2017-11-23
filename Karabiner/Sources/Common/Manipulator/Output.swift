@@ -111,4 +111,3 @@ public extension Manipulator.Output {
         }
     }
 }
-

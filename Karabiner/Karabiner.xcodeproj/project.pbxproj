@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D3462FC1FC778DA0022E2A3 /* Karabiner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DD85BE51FC63991006FA9B1 /* Karabiner.framework */; };
+		8D3463081FC77CB10022E2A3 /* ConditionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3463071FC77CB10022E2A3 /* ConditionTests.swift */; };
 		8D5BE8501FC63B8500297968 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BE84F1FC63B8500297968 /* Keyboard.swift */; };
 		8D5BE8531FC64A3300297968 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BE8521FC64A3300297968 /* Input.swift */; };
 		8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BC1FC6DE6600F8882B /* Rule.swift */; };
@@ -18,7 +20,21 @@
 		8DD85BFD1FC63B2B006FA9B1 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD85BFC1FC63B2B006FA9B1 /* File.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8D3462FD1FC778DA0022E2A3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8DD85BDC1FC63991006FA9B1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DD85BE41FC63991006FA9B1;
+			remoteInfo = Karabiner;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		8D3462F71FC778DA0022E2A3 /* KarabinerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KarabinerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D3463051FC77BEE0022E2A3 /* macOS_Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Tests.xcconfig; sourceTree = "<group>"; };
+		8D3463061FC77BEE0022E2A3 /* macOS_Tests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = macOS_Tests.plist; sourceTree = "<group>"; };
+		8D3463071FC77CB10022E2A3 /* ConditionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionTests.swift; sourceTree = "<group>"; };
 		8D5BE84F1FC63B8500297968 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
 		8D5BE8521FC64A3300297968 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
 		8D6DF9BC1FC6DE6600F8882B /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
@@ -35,6 +51,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8D3462F41FC778DA0022E2A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D3462FC1FC778DA0022E2A3 /* Karabiner.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD85BE11FC63991006FA9B1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -45,6 +69,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D3463021FC77BDB0022E2A3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				8D3463031FC77BDB0022E2A3 /* Common */,
+				8D3463041FC77BDB0022E2A3 /* TestsData */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		8D3463031FC77BDB0022E2A3 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				8D3463071FC77CB10022E2A3 /* ConditionTests.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		8D3463041FC77BDB0022E2A3 /* TestsData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TestsData;
+			sourceTree = "<group>";
+		};
 		8D5BE8511FC64A1C00297968 /* Manipulator */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +125,7 @@
 			children = (
 				8DD85BF01FC639CE006FA9B1 /* Configuration */,
 				8DD85BF81FC639CE006FA9B1 /* Sources */,
+				8D3463021FC77BDB0022E2A3 /* Tests */,
 				8DD85BE61FC63991006FA9B1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				8DD85BE51FC63991006FA9B1 /* Karabiner.framework */,
+				8D3462F71FC778DA0022E2A3 /* KarabinerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +153,8 @@
 			children = (
 				8DD85BF21FC639CE006FA9B1 /* macOS.xcconfig */,
 				8DD85BF51FC639CE006FA9B1 /* macOS.plist */,
+				8D3463061FC77BEE0022E2A3 /* macOS_Tests.plist */,
+				8D3463051FC77BEE0022E2A3 /* macOS_Tests.xcconfig */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -150,6 +202,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8D3462F61FC778DA0022E2A3 /* KarabinerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D3463011FC778DA0022E2A3 /* Build configuration list for PBXNativeTarget "KarabinerTests" */;
+			buildPhases = (
+				8D3462F31FC778DA0022E2A3 /* Sources */,
+				8D3462F41FC778DA0022E2A3 /* Frameworks */,
+				8D3462F51FC778DA0022E2A3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8D3462FE1FC778DA0022E2A3 /* PBXTargetDependency */,
+			);
+			name = KarabinerTests;
+			productName = KarabinerTests;
+			productReference = 8D3462F71FC778DA0022E2A3 /* KarabinerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8DD85BE41FC63991006FA9B1 /* Karabiner */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8DD85BED1FC63991006FA9B1 /* Build configuration list for PBXNativeTarget "Karabiner" */;
@@ -174,9 +244,15 @@
 		8DD85BDC1FC63991006FA9B1 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0910;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Marcos Sanchez-Dehesa";
 				TargetAttributes = {
+					8D3462F61FC778DA0022E2A3 = {
+						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0910;
+						ProvisioningStyle = Automatic;
+					};
 					8DD85BE41FC63991006FA9B1 = {
 						CreatedOnToolsVersion = 9.1;
 						LastSwiftMigration = 0910;
@@ -197,11 +273,19 @@
 			projectRoot = "";
 			targets = (
 				8DD85BE41FC63991006FA9B1 /* Karabiner */,
+				8D3462F61FC778DA0022E2A3 /* KarabinerTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8D3462F51FC778DA0022E2A3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD85BE31FC63991006FA9B1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -212,6 +296,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8D3462F31FC778DA0022E2A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D3463081FC77CB10022E2A3 /* ConditionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DD85BE01FC63991006FA9B1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -229,7 +321,42 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		8D3462FE1FC778DA0022E2A3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DD85BE41FC63991006FA9B1 /* Karabiner */;
+			targetProxy = 8D3462FD1FC778DA0022E2A3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		8D3462FF1FC778DA0022E2A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D3463051FC77BEE0022E2A3 /* macOS_Tests.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = V4LZL56CA7;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		8D3463001FC778DA0022E2A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8D3463051FC77BEE0022E2A3 /* macOS_Tests.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = V4LZL56CA7;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		8DD85BEB1FC63991006FA9B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8DD85BF71FC639CE006FA9B1 /* Common.xcconfig */;
@@ -386,6 +513,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8D3463011FC778DA0022E2A3 /* Build configuration list for PBXNativeTarget "KarabinerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D3462FF1FC778DA0022E2A3 /* Debug */,
+				8D3463001FC778DA0022E2A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8DD85BDF1FC63991006FA9B1 /* Build configuration list for PBXProject "Karabiner" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

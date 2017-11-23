@@ -1,0 +1,11 @@
+// Architecture
+SDKROOT = macosx
+
+// Packaging
+INFOPLIST_FILE = $(SRCROOT)/Configuration/macOS/macOS.plist
+PRODUCT_NAME = $(KARABINER_NAME)Tests
+PRODUCT_BUNDLE_IDENTIFIER = $(KARABINER_ID).sdk.tests
+
+// Swift Compiler - General
+//SWIFT_OBJC_BRIDGING_HEADER = Tests/relayrTestsBridge.h
+
