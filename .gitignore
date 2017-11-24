@@ -38,3 +38,5 @@ playground.xcworkspace
 .build/
 
 ## Project specific
+# Test data
+TestsData/
