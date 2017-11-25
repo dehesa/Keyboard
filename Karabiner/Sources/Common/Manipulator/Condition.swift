@@ -3,37 +3,37 @@ import Foundation
 public extension Manipulator {
     /// A condition that must be satisfied for an input to be recognized.
     public enum Condition: Codable {
-        case frontMostApps(Apps)
-        case devices(Devices)
-        case keyboards(Keyboards)
-        case inputSources(InputSources)
-        case variable(Variable)
+        case frontMostAppsIf(Apps)
+        case devicesIf(Devices)
+        case keyboardsIf(Keyboards)
+        case inputSourcesIf(InputSources)
+        case variableIf(Variable)
         
-        public static func apps(_ presence: Presence, bundles: Set<String>? = nil, paths: Set<String>? = nil, title: String? = nil) -> Condition? {
+        public static func frontMostApps(_ presence: Presence, bundles: Set<String>? = nil, paths: Set<String>? = nil, title: String? = nil) -> Condition? {
             guard let app = try? Apps(presence, bundleIds: bundles, filePaths: paths, title: title) else { return nil }
-            return .frontMostApps(app)
+            return .frontMostAppsIf(app)
         }
         
-        public static func devs(_ presence: Presence, _ identifiers: [(vendorId: Int, productId: Int?, title: String?)], title: String? = nil) -> Condition? {
+        public static func devices(_ presence: Presence, _ identifiers: [(vendorId: Int, productId: Int?, title: String?)], title: String? = nil) -> Condition? {
             let ids = identifiers.map { Devices.Identifier($2, vendorId: $0, productId: $1) }
             guard let devices = try? Devices(presence, Set(ids), title: title) else { return nil }
-            return .devices(devices)
+            return .devicesIf(devices)
         }
         
-        public static func keybs(_ presence: Presence, _ types: Set<Keyboards.Kind>, title: String? = nil) -> Condition? {
+        public static func keyboards(_ presence: Presence, _ types: Set<Keyboards.Kind>, title: String? = nil) -> Condition? {
             guard let types = try? Keyboards(presence, types, title: title) else { return nil }
-            return .keyboards(types)
+            return .keyboardsIf(types)
         }
         
-        public static func srcs(_ presence: Presence, _ inputSources: [(language: String?, sourceId: String?, modeId: String?)], title: String? = nil) -> Condition? {
+        public static func inputSources(_ presence: Presence, _ inputSources: [(language: String?, sourceId: String?, modeId: String?)], title: String? = nil) -> Condition? {
             guard let sources = try? inputSources.map({ try InputSources.Source(language: $0, identifier: $1, modeId: $2) }),
                   let inputs = try? InputSources(presence, Set(sources), title: title) else { return nil }
-            return .inputSources(inputs)
+            return .inputSourcesIf(inputs)
         }
         
-        public static func vari(_ presence: Presence, _ name: String, value: Encodable, title: String? = nil) -> Condition? {
+        public static func variable(_ presence: Presence, _ name: String, value: Encodable, title: String? = nil) -> Condition? {
             guard let variable = try? Variable(presence, name, value: value, title: title) else { return nil }
-            return .variable(variable)
+            return .variableIf(variable)
         }
     }
 }
@@ -43,10 +43,6 @@ public extension Manipulator.Condition {
     /// It could also convey the meaning of entity existence or not.
     public enum Presence {
         case are, areNot
-    }
-    
-    public enum Error: Swift.Error {
-        case invalidArguments(String)
     }
     
     /// Condition targeting some Frontmost macOS apps.
@@ -73,7 +69,7 @@ public extension Manipulator.Condition {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let type = try container.decode(String.self, forKey: .type)
             let presence = try Manipulator.Condition.presence(of: type, are: CodingKeys.are, areNot: CodingKeys.areNot, codingPath: container.codingPath)
-            let title = try container.decode(String.self, forKey: .title)
+            let title = try container.decodeIfPresent(String.self, forKey: .title)
             
             let bundles = try container.decode(Set<String>.self, forKey: .bundleIds)
             let paths = try container.decode(Set<String>.self, forKey: .filePaths)
@@ -84,10 +80,10 @@ public extension Manipulator.Condition {
             let presence = (self.presence == .are) ? CodingKeys.are : CodingKeys.areNot
             
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(title, forKey: .title)
+            try container.encodeIfPresent(self.title, forKey: .title)
             try container.encode(presence.stringValue, forKey: .type)
-            try container.encodeIfPresent(bundleIds, forKey: .bundleIds)
-            try container.encodeIfPresent(filePaths, forKey: .filePaths)
+            try container.encodeIfPresent(self.bundleIds, forKey: .bundleIds)
+            try container.encodeIfPresent(self.filePaths, forKey: .filePaths)
         }
         
         fileprivate enum CodingKeys: String, CodingKey {
@@ -116,7 +112,7 @@ public extension Manipulator.Condition {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let type = try container.decode(String.self, forKey: .type)
             let presence = try Manipulator.Condition.presence(of: type, are: CodingKeys.are, areNot: CodingKeys.areNot, codingPath: container.codingPath)
-            let title = try container.decode(String.self, forKey: .title)
+            let title = try container.decodeIfPresent(String.self, forKey: .title)
             
             let identifiers = try container.decode(Set<Identifier>.self, forKey: .identifiers)
             try self.init(presence, identifiers, title: title)
@@ -126,7 +122,7 @@ public extension Manipulator.Condition {
             let presence = (self.presence == .are) ? CodingKeys.are : CodingKeys.areNot
             
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.title, forKey: .title)
+            try container.encodeIfPresent(self.title, forKey: .title)
             try container.encode(presence.stringValue, forKey: .type)
             try container.encode(self.identifiers, forKey: .identifiers)
         }
@@ -184,7 +180,7 @@ public extension Manipulator.Condition {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let type = try container.decode(String.self, forKey: .type)
             let presence = try Manipulator.Condition.presence(of: type, are: CodingKeys.are, areNot: CodingKeys.areNot, codingPath: container.codingPath)
-            let title = try container.decode(String.self, forKey: .title)
+            let title = try container.decodeIfPresent(String.self, forKey: .title)
             
             let types = try container.decode(Set<Kind>.self, forKey: .keyboardTypes)
             try self.init(presence, types, title: title)
@@ -194,7 +190,7 @@ public extension Manipulator.Condition {
             let presence = (self.presence == .are) ? CodingKeys.are : CodingKeys.areNot
             
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.title, forKey: .title)
+            try container.encodeIfPresent(self.title, forKey: .title)
             try container.encode(presence.stringValue, forKey: .type)
             try container.encode(self.types, forKey: .keyboardTypes)
         }
@@ -231,7 +227,7 @@ public extension Manipulator.Condition {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let type = try container.decode(String.self, forKey: .type)
             let presence = try Manipulator.Condition.presence(of: type, are: CodingKeys.are, areNot: CodingKeys.areNot, codingPath: container.codingPath)
-            let title = try container.decode(String.self, forKey: .title)
+            let title = try container.decodeIfPresent(String.self, forKey: .title)
             
             let sources = try container.decode(Set<Source>.self, forKey: .inputs)
             try self.init(presence, sources, title: title)
@@ -241,7 +237,7 @@ public extension Manipulator.Condition {
             let presence = (self.presence == .are) ? CodingKeys.are : CodingKeys.areNot
             
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.title, forKey: .title)
+            try container.encodeIfPresent(self.title, forKey: .title)
             try container.encode(presence.stringValue, forKey: .type)
             try container.encode(self.sources, forKey: .inputs)
         }
@@ -305,7 +301,7 @@ public extension Manipulator.Condition {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             let type = try container.decode(String.self, forKey: .type)
             let presence = try Manipulator.Condition.presence(of: type, are: CodingKeys.are, areNot: CodingKeys.areNot, codingPath: container.codingPath)
-            let title = try container.decode(String.self, forKey: .title)
+            let title = try container.decodeIfPresent(String.self, forKey: .title)
             
             let name = try container.decode(String.self, forKey: .name)
             let unknown = try container.decode(JSON.UnknownValue.self, forKey: .value)
@@ -316,7 +312,7 @@ public extension Manipulator.Condition {
             let presence = (self.presence == .are) ? CodingKeys.are : CodingKeys.areNot
             
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.title, forKey: .title)
+            try container.encodeIfPresent(self.title, forKey: .title)
             try container.encode(presence.stringValue, forKey: .type)
             try container.encode(self.name, forKey: .name)
             try container.encode(JSON.UnknownValue(self.value), forKey: .value)
@@ -330,21 +326,26 @@ public extension Manipulator.Condition {
 }
 
 public extension Manipulator.Condition {
+    /// Lists of errors that can be triggered through a Condition statement.
+    public enum Error: Swift.Error {
+        case invalidArguments(String)
+    }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(String.self, forKey: .type)
         
         switch type {
         case Apps.CodingKeys.are.rawValue: fallthrough
-        case Apps.CodingKeys.areNot.rawValue: self = .frontMostApps(try Apps(from: decoder))
+        case Apps.CodingKeys.areNot.rawValue: self = .frontMostAppsIf(try Apps(from: decoder))
         case Devices.CodingKeys.are.rawValue: fallthrough
-        case Devices.CodingKeys.areNot.rawValue: self = .devices(try Devices(from: decoder))
+        case Devices.CodingKeys.areNot.rawValue: self = .devicesIf(try Devices(from: decoder))
         case Keyboards.CodingKeys.are.rawValue: fallthrough
-        case Keyboards.CodingKeys.areNot.rawValue: self = .keyboards(try Keyboards(from: decoder))
+        case Keyboards.CodingKeys.areNot.rawValue: self = .keyboardsIf(try Keyboards(from: decoder))
         case InputSources.CodingKeys.are.rawValue: fallthrough
-        case InputSources.CodingKeys.areNot.rawValue: self = .inputSources(try InputSources(from: decoder))
+        case InputSources.CodingKeys.areNot.rawValue: self = .inputSourcesIf(try InputSources(from: decoder))
         case Variable.CodingKeys.are.rawValue: fallthrough
-        case Variable.CodingKeys.areNot.rawValue: self = .variable(try Variable(from: decoder))
+        case Variable.CodingKeys.areNot.rawValue: self = .variableIf(try Variable(from: decoder))
         default:
             let errorDescription = "The value \"\(type)\" was not recognized for key: \"\(CodingKeys.type.rawValue)\""
             throw DecodingError.dataCorruptedError(forKey: .type, in: container.self, debugDescription: errorDescription)
@@ -353,15 +354,15 @@ public extension Manipulator.Condition {
     
     public func encode(to encoder: Encoder) throws {
         switch self {
-        case .frontMostApps(let apps):
+        case .frontMostAppsIf(let apps):
             try apps.encode(to: encoder)
-        case .devices(let devices):
+        case .devicesIf(let devices):
             try devices.encode(to: encoder)
-        case .keyboards(let keyboards):
+        case .keyboardsIf(let keyboards):
             try keyboards.encode(to: encoder)
-        case .inputSources(let sources):
+        case .inputSourcesIf(let sources):
             try sources.encode(to: encoder)
-        case .variable(let variable):
+        case .variableIf(let variable):
             try variable.encode(to: encoder)
         }
     }

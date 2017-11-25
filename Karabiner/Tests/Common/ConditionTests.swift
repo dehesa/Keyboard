@@ -15,23 +15,28 @@ class ConditionTests: XCTestCase {
     
     func testDecoders() {
         typealias Condition = Karabiner.Manipulator.Condition
-        
+        let data = self.data(fileName: "example_device")!
+
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
-        
-        let apps = Condition.apps(.is, bundles: ["regex 1", "regex 2"], paths: ["fileA", "fileB"], title: "Manolo")!
-        let data = try! encoder.encode(apps)
-        print("\n\n\(String(bytes: data, encoding: .utf8)!)\n\n")
-        
+
         let decoder = JSONDecoder()
-        let returned = try! decoder.decode(Condition.self, from: data)
-        print("\n\n\(returned)\n\n")
+        
+        // Original file
+        let originalJSON = try? decoder.decode([String:JSON.UnknownValue].self, from: data)
+        let originalData = try? encoder.encode(originalJSON!)
+        let original = String(bytes: originalData!, encoding: .utf8)!
+        print("\n\n\(original)\n\n")
+        
+        
+        let parsedJSON = try? decoder.decode(Karabiner.File.self, from: data)
+        let parsedData = try? encoder.encode(parsedJSON!)
+        let parsed = String(bytes: parsedData!, encoding: .utf8)!
+        print("\n\n\(parsed)\n\n")
     }
     
-//    func testPerformanceExample() {
-//        // This is an example of a performance test case.
-//        self.measure {
-//            // Put the code you want to measure the time of here.
-//        }
-//    }
+    private func data(fileName: String, fileExtension: String = "json") -> Data? {
+        guard let url = Bundle(for: ConditionTests.self).url(forResource: fileName, withExtension: fileExtension) else { return nil }
+        return try? Data(contentsOf: url)
+    }
 }

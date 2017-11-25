@@ -37,7 +37,7 @@ public extension Manipulator.Input {
     }
     
     /// State of modifiers.
-    public enum Modifiers: Codable, ExpressibleByNilLiteral {
+    public enum Modifiers: Codable, Equatable, ExpressibleByNilLiteral {
         /// No modifier shall be applied.
         case none
         /// The following exact modifiers need to be targeted.
@@ -59,7 +59,7 @@ public extension Manipulator.Input {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        
+        // Figure out the type of input.
         let type: Kind
         if let keyCode = try container.decodeIfPresent(Keyboard.Key.self, forKey: .keyCode) {
             type = .key(keyCode)
@@ -73,7 +73,7 @@ public extension Manipulator.Input {
             let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Impossible to figure out what input is expected (e.g. keyCode? pointing button?...)")
             throw DecodingError.dataCorrupted(context)
         }
-        
+        /// Figure out the modifiers.
         guard container.contains(.modifiers) else {
             self.init(type, .none, optional: .none); return
         }
@@ -95,18 +95,17 @@ public extension Manipulator.Input {
         }
         
         switch self.modifiers {
-        case (.none, .none):
-            break
-        case (let mandatory, .none):
+        case (let mandatory, .none) where mandatory != Modifiers.none:
             var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
             try nestedContainer.encode(mandatory, forKey: .mandatory)
-        case (.none, let optional):
+        case (.none, let optional) where optional != Modifiers.none:
             var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
             try nestedContainer.encode(optional, forKey: .optional)
-        case (let mandatory, let optional):
+        case (let mandatory, let optional) where (mandatory != Modifiers.none) || (optional != Modifiers.none):
             var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
-            try nestedContainer.encode(mandatory, forKey: .mandatory)
-            try nestedContainer.encode(optional, forKey: .optional)
+            if (mandatory != Modifiers.none) { try nestedContainer.encode(mandatory, forKey: .mandatory) }
+            if (optional != Modifiers.none) { try nestedContainer.encode(optional, forKey: .optional) }
+        default: break
         }
     }
     
@@ -120,10 +119,6 @@ public extension Manipulator.Input {
 }
 
 public extension Manipulator.Input.Modifiers {
-    public init(nilLiteral: ()) {
-        self = .none
-    }
-    
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         
@@ -143,17 +138,36 @@ public extension Manipulator.Input.Modifiers {
         self = .modifiers(result)
     }
     
+    public init(nilLiteral: ()) {
+        self = .none
+    }
+    
     public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        
         switch self {
-        case .modifiers(let array): try container.encode(array)
-        case .any: try container.encode(CodingKeys.any.rawValue)
-        case .none: try container.encodeNil()
+        case .modifiers(let array):
+            var container = encoder.unkeyedContainer()
+            try container.encode(array)
+        case .any:
+            var container = encoder.unkeyedContainer()
+            try container.encode(CodingKeys.any.rawValue)
+        case .none:
+            var container = encoder.singleValueContainer()
+            try container.encodeNil()
         }
     }
     
     private enum CodingKeys: String, CodingKey {
         case any
+    }
+    
+    public static func == (lhs: Manipulator.Input.Modifiers, rhs: Manipulator.Input.Modifiers) -> Bool {
+        switch (lhs, rhs) {
+        case (.none, .none), (.any, .any):
+            return true
+        case (.modifiers(let lm), .modifiers(let rm)):
+            return lm == rm
+        default:
+            return false
+        }
     }
 }

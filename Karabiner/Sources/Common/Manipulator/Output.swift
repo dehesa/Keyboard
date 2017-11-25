@@ -15,23 +15,154 @@ public extension Manipulator.Output {
     /// type of output expected from the virtual keyboard.
     public enum Kind {
         /// A key press (with its associated key code).
-        case key(Keyboard.Key)
+        case setKey(Keyboard.Key)
         /// A mouse button.
-        case button(Keyboard.Button)
+        case setButton(Keyboard.Button)
         /// A customer specific key code.
-        case custom(String)
+        case setConsumerKey(ConsumerKeyCode)
         /// A shell command to be executed on the terminal.
-        case shell(String)
+        case setShellCommand(ShellCommand)
         /// Change keyboard input source (e.g. language, source identifier, mode identifier).
         /// You can find the current input source identifiers with the **EventViewer** app, under the "Variables" tab.
-        case inputSource(String, sourceId: String, modeId: String)
+        case setInputSource(InputSource)
         /// Lets you set variables.
-        /// You can confirm the current variable stete with the **EventViewer** app, under the "Variables" tab.
-        case variable(String, value: Encodable?)
+        /// You can confirm the current variable state with the **EventViewer** app, under the "Variables" tab.
+        case setVariable(Variable)
+        
+        public static func consumer(keyCode: String) -> Kind? {
+            guard let consumerKeyCode = try? ConsumerKeyCode(keyCode) else { return nil }
+            return .setConsumerKey(consumerKeyCode)
+        }
+        
+        public static func shell(command: String) -> Kind? {
+            guard let shellCommand = try? ShellCommand(command) else { return nil }
+            return .setShellCommand(shellCommand)
+        }
+        
+        public static func inputSource(language: String?, sourceId: String?, modeId: String?) -> Kind? {
+            guard let source = try? InputSource(language: language, identifier: sourceId, modeId: modeId) else { return nil }
+            return .setInputSource(source)
+        }
+        
+        public static func variable(name: String, value: Encodable?) -> Kind? {
+            guard let variable = try? Variable(name: name, value: value) else { return nil }
+            return .setVariable(variable)
+        }
+    }
+    
+    /// Consumer key code holder.
+    /// - note: A structure is defined just to hold a string, so the string can be validated.
+    public struct ConsumerKeyCode: Codable {
+        /// A custom consumer key code.
+        public let keyCode: String
+        
+        /// Designated initializer
+        public init(_ keyCode: String) throws {
+            guard !keyCode.isEmpty else { throw Error.invalidArguments("The consumer key code cannot be empty.") }
+            self.keyCode = keyCode
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            try self.init(try container.decode(String.self))
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(keyCode)
+        }
+    }
+    
+    /// Shell command holder.
+    /// - note: A structure is defined just to hold a string, so the string can be validated.
+    public struct ShellCommand: Codable {
+        /// The shell command to be executed.
+        public let command: String
+        
+        /// Designated initializer
+        public init(_ command: String) throws {
+            guard !command.isEmpty else { throw Error.invalidArguments("The shell command cannot be empty.") }
+            self.command = command
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            try self.init(try container.decode(String.self))
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(command)
+        }
+    }
+    
+    public struct InputSource: Hashable, Codable {
+        /// The locale identifier for the targeted input source; such as "en", "fr", "en_us", etc.
+        public let language: String?
+        /// Reverse DNS identifying the input source.
+        public let identifier: String?
+        /// Unknown...
+        public let modeId: String?
+        
+        /// Designated initializer.
+        public init(language: String?, identifier: String?, modeId: String?) throws {
+            self.language = language.flatMap { $0.isEmpty ? nil : $0 }
+            self.identifier = identifier.flatMap { $0.isEmpty ? nil : $0 }
+            self.modeId = modeId.flatMap { $0.isEmpty ? nil : $0 }
+            if self.language == nil && self.identifier == nil && self.modeId == nil { throw Error.invalidArguments("At least a characteristic of an input source must be given.") }
+        }
+        
+        public var hashValue: Int {
+            return (self.language?.hashValue ?? 0) ^ (self.identifier?.hashValue ?? 0) ^ (self.modeId?.hashValue ?? 0)
+        }
+        
+        public static func ==(lhs: InputSource, rhs: InputSource) -> Bool {
+            return (lhs.language == rhs.language) && (lhs.identifier == rhs.identifier) && (lhs.modeId == rhs.modeId)
+        }
+        
+        private enum CodingKeys: String, CodingKey {
+            case language, identifier="input_source_id", modeId="input_mode_id"
+        }
+    }
+    
+    public struct Variable: Codable {
+        /// The name for the variable (it acts as the identifier).
+        public let name: String
+        /// The variable value/content.
+        public let value: Encodable?
+        
+        /// Designated initializer.
+        public init(name: String, value: Encodable?) throws {
+            guard !name.isEmpty else { throw Error.invalidArguments("The variable name must have at least one character.") }
+            self.name = name
+            self.value = value
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let name = try container.decode(String.self, forKey: .name)
+            let value = try container.decode(JSON.UnknownValue.self, forKey: .value)
+            try self.init(name: name, value: value)
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(name, forKey: .name)
+            try container.encode(JSON.UnknownValue(value), forKey: .value)
+        }
+        
+        private enum CodingKeys: String, CodingKey {
+            case name, value
+        }
     }
 }
 
 public extension Manipulator.Output {
+    /// Lists of errors that can be triggered through an Output statement.
+    public enum Error: Swift.Error {
+        case invalidArguments(String)
+    }
+    
     /// Designated initializer, where only the output type is required.
     /// - parameter type: The type of output being described.
     /// - parameter modifiers: Modifiers to be applied on the output.
@@ -45,24 +176,17 @@ public extension Manipulator.Output {
         
         let type: Kind
         if let keyCode = try container.decodeIfPresent(Keyboard.Key.self, forKey: .keyCode) {
-            type = .key(keyCode)
+            type = .setKey(keyCode)
         } else if let button = try container.decodeIfPresent(Keyboard.Button.self, forKey: .button) {
-            type = .button(button)
-        } else if let customCode = try container.decodeIfPresent(String.self, forKey: .customCode) {
-            type = .custom(customCode)
-        } else if let command = try container.decodeIfPresent(String.self, forKey: .shell) {
-            type = .shell(command)
-        } else if container.contains(.inputSource) {
-            let container = try container.nestedContainer(keyedBy: CodingKeys.InputSourcesKeys.self, forKey: .inputSource)
-            let language = try container.decode(String.self, forKey: .language)
-            let sourceId = try container.decode(String.self, forKey: .sourceId)
-            let modeId = try container.decode(String.self, forKey: .modeId)
-            type = .inputSource(language, sourceId: sourceId, modeId: modeId)
-        } else if container.contains(.variable) {
-            let container = try container.nestedContainer(keyedBy: CodingKeys.VariableKeys.self, forKey: .variable)
-            let name = try container.decode(String.self, forKey: .name)
-            let unknown = try container.decode(JSON.UnknownValue.self, forKey: .value)
-            type = .variable(name, value: unknown.content)
+            type = .setButton(button)
+        } else if let consumerKeyCode = try container.decodeIfPresent(ConsumerKeyCode.self, forKey: .customCode) {
+            type = .setConsumerKey(consumerKeyCode)
+        } else if let command = try container.decodeIfPresent(ShellCommand.self, forKey: .shell) {
+            type = .setShellCommand(command)
+        } else if let source = try container.decodeIfPresent(InputSource.self, forKey: .inputSource) {
+            type = .setInputSource(source)
+        } else if let variable = try container.decodeIfPresent(Variable.self, forKey: .variable) {
+            type = .setVariable(variable)
         } else {
             let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Impossible to figure out what manipulator's output is being described")
             throw DecodingError.dataCorrupted(context)
@@ -75,21 +199,15 @@ public extension Manipulator.Output {
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.modifiers, forKey: .modifiers)
         
         switch self.type {
-        case .key(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
-        case .button(let button): try container.encode(button, forKey: .button)
-        case .custom(let custom): try container.encode(custom, forKey: .customCode)
-        case .shell(let command): try container.encode(command, forKey: .shell)
-        case .inputSource(let language, sourceId: let sourceId, modeId: let modeId):
-            var container = container.nestedContainer(keyedBy: CodingKeys.InputSourcesKeys.self, forKey: .inputSource)
-            try container.encode(language, forKey: .language)
-            try container.encode(sourceId, forKey: .sourceId)
-            try container.encode(modeId, forKey: .modeId)
-        case .variable(let name, value: let value):
-            var container = container.nestedContainer(keyedBy: CodingKeys.VariableKeys.self, forKey: .variable)
-            try container.encode(name, forKey: .name)
-            try container.encode(JSON.UnknownValue(value), forKey: .value)
+        case .setKey(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
+        case .setButton(let button): try container.encode(button, forKey: .button)
+        case .setConsumerKey(let code): try container.encode(code, forKey: .customCode)
+        case .setShellCommand(let command): try container.encode(command, forKey: .shell)
+        case .setInputSource(let source): try container.encode(source, forKey: .inputSource)
+        case .setVariable(let variable): try container.encode(variable, forKey: .variable)
         }
     }
     
@@ -101,13 +219,5 @@ public extension Manipulator.Output {
         case inputSource = "select_input_source"
         case variable = "set_variable"
         case modifiers
-        
-        fileprivate enum InputSourcesKeys: String, CodingKey {
-            case language, sourceId="input_source_id", modeId="input_mode_id"
-        }
-        
-        fileprivate enum VariableKeys: String, CodingKey {
-            case name, value
-        }
     }
 }
