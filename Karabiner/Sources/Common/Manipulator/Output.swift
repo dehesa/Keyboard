@@ -15,11 +15,11 @@ public extension Manipulator.Output {
     /// type of output expected from the virtual keyboard.
     public enum Kind {
         /// A key press (with its associated key code).
-        case setKey(Keyboard.Key)
+        case setKeyCode(Keyboard.Key)
         /// A mouse button.
-        case setButton(Keyboard.Button)
+        case setButton(Mouse.Button)
         /// A customer specific key code.
-        case setConsumerKey(ConsumerKeyCode)
+        case setConsumerKeyCode(ConsumerKeyCode)
         /// A shell command to be executed on the terminal.
         case setShellCommand(ShellCommand)
         /// Change keyboard input source (e.g. language, source identifier, mode identifier).
@@ -29,9 +29,17 @@ public extension Manipulator.Output {
         /// You can confirm the current variable state with the **EventViewer** app, under the "Variables" tab.
         case setVariable(Variable)
         
+        public static func key(code: Keyboard.Key) -> Kind {
+            return .setKeyCode(code)
+        }
+        
+        public static func button(_ button: Mouse.Button) -> Kind {
+            return .setButton(button)
+        }
+        
         public static func consumer(keyCode: String) -> Kind? {
             guard let consumerKeyCode = try? ConsumerKeyCode(keyCode) else { return nil }
-            return .setConsumerKey(consumerKeyCode)
+            return .setConsumerKeyCode(consumerKeyCode)
         }
         
         public static func shell(command: String) -> Kind? {
@@ -50,7 +58,7 @@ public extension Manipulator.Output {
         }
     }
     
-    /// Consumer key code holder.
+    /// Consumer key code wrapper.
     /// - note: A structure is defined just to hold a string, so the string can be validated.
     public struct ConsumerKeyCode: Codable {
         /// A custom consumer key code.
@@ -176,11 +184,11 @@ public extension Manipulator.Output {
         
         let type: Kind
         if let keyCode = try container.decodeIfPresent(Keyboard.Key.self, forKey: .keyCode) {
-            type = .setKey(keyCode)
-        } else if let button = try container.decodeIfPresent(Keyboard.Button.self, forKey: .button) {
+            type = .setKeyCode(keyCode)
+        } else if let button = try container.decodeIfPresent(Mouse.Button.self, forKey: .button) {
             type = .setButton(button)
         } else if let consumerKeyCode = try container.decodeIfPresent(ConsumerKeyCode.self, forKey: .customCode) {
-            type = .setConsumerKey(consumerKeyCode)
+            type = .setConsumerKeyCode(consumerKeyCode)
         } else if let command = try container.decodeIfPresent(ShellCommand.self, forKey: .shell) {
             type = .setShellCommand(command)
         } else if let source = try container.decodeIfPresent(InputSource.self, forKey: .inputSource) {
@@ -202,9 +210,9 @@ public extension Manipulator.Output {
         try container.encodeIfPresent(self.modifiers, forKey: .modifiers)
         
         switch self.type {
-        case .setKey(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
+        case .setKeyCode(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
         case .setButton(let button): try container.encode(button, forKey: .button)
-        case .setConsumerKey(let code): try container.encode(code, forKey: .customCode)
+        case .setConsumerKeyCode(let code): try container.encode(code, forKey: .customCode)
         case .setShellCommand(let command): try container.encode(command, forKey: .shell)
         case .setInputSource(let source): try container.encode(source, forKey: .inputSource)
         case .setVariable(let variable): try container.encode(variable, forKey: .variable)

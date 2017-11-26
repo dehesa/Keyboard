@@ -36,10 +36,6 @@ public enum Keyboard {
         case command, commandL = "left_command", commandR = "right_command"
         case fn
     }
-    
-    public enum Button: String, Codable {
-        case button1, button2, button3, button4, button5, button6, button7, button8, button9
-    }
 }
 
 internal extension Set where Element==Keyboard.Modifier {

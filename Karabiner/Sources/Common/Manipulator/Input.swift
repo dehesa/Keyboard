@@ -12,7 +12,12 @@ public extension Manipulator {
         /// The type of input state received from the keyboard.
         public let type: Kind
         /// List of modifiers applied to this input (whether required or optional).
-        public let modifiers: (mandatory: Modifiers, optional: Modifiers)
+        public let modifiers: Modifiers
+        
+        /// Designated initializer
+        public init(_ type: Kind, modifiers: Modifiers) {
+            (self.type, self.modifiers) = (type, modifiers)
+        }
     }
 }
 
@@ -22,13 +27,30 @@ public extension Manipulator.Input {
     /// Only one can be active at a time.
     public enum Kind {
         /// A key press (with its associated key code).
-        case key(Keyboard.Key)
+        case isKeyCode(Keyboard.Key)
         /// A mouse button.
-        case button(Keyboard.Button)
+        case isButton(Mouse.Button)
         /// A customer specific key code.
-        case custom(String)
+        case isConsumerKeyCode(ConsumerKeyCode)
         /// Either any key press, or any button click, or any custom key press.
-        case any(Manipulator.Input.Kind.`Any`)
+        case isAny(of: Manipulator.Input.Kind.`Any`)
+        
+        public static func key(code: Keyboard.Key) -> Kind {
+            return .isKeyCode(code)
+        }
+        
+        public static func button(_ button: Mouse.Button) -> Kind {
+            return .isButton(button)
+        }
+        
+        public static func consumer(keyCode: String) -> Kind? {
+            guard let consumerKeyCode = try? ConsumerKeyCode(keyCode) else { return nil }
+            return .isConsumerKeyCode(consumerKeyCode)
+        }
+        
+        public static func any(of input: Manipulator.Input.Kind.`Any`) -> Kind {
+            return .isAny(of: input)
+        }
         
         /// Convey the idea of any key press, mouse click, or customer key code.
         public enum `Any`: String, Codable {
@@ -36,25 +58,140 @@ public extension Manipulator.Input {
         }
     }
     
+    /// Consumer key code wrapper.
+    /// - note: A structure is defined just to hold a string, so the string can be validated.
+    public struct ConsumerKeyCode: Codable {
+        /// A custom consumer key code.
+        public let keyCode: String
+        
+        /// Designated initializer
+        public init(_ keyCode: String) throws {
+            guard !keyCode.isEmpty else { throw Error.invalidArguments("The consumer key code cannot be empty.") }
+            self.keyCode = keyCode
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            try self.init(try container.decode(String.self))
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(keyCode)
+        }
+    }
+    
     /// State of modifiers.
-    public enum Modifiers: Codable, Equatable, ExpressibleByNilLiteral {
-        /// No modifier shall be applied.
-        case none
-        /// The following exact modifiers need to be targeted.
-        case modifiers(Set<Keyboard.Modifier>)
-        /// Any modifier shall be targeted.
-        case any
+    public struct Modifiers: Codable {
+        /// The modifiers that must be there for the input to match.
+        public let mandatory: Filter
+        /// The modifiers that can be there and it will not affect the input match.
+        public let optional: Filter
+        
+        public init(mandatory: Filter = .none, optional: Filter = .none) {
+            self.mandatory = mandatory.qualify()
+            self.optional = mandatory.qualify()
+        }
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.mandatory = try container.decodeIfPresent(Filter.self, forKey: .mandatory) ?? .none
+            self.optional = try container.decodeIfPresent(Filter.self, forKey: .optional) ?? .none
+        }
+        
+        public func encode(to encoder: Encoder) throws {
+            if case .none = self.mandatory, case .none = self.optional {
+                var container = encoder.singleValueContainer()
+                return try container.encodeNil()
+            }
+            
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            if self.mandatory != .none {
+                try container.encode(self.mandatory, forKey: .mandatory)
+            }
+            
+            if self.optional != .none {
+                try container.encode(self.optional, forKey: .optional)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mandatory, optional
+        }
+        
+        /// It lets the user select the quantity of modifiers: whether none, any, or a specific amount of them.
+        public enum Filter: Codable, Equatable, ExpressibleByNilLiteral {
+            /// No modifier shall be applied.
+            case none
+            /// The following exact modifiers need to be targeted.
+            case modifiers(Set<Keyboard.Modifier>)
+            /// Any modifier shall be targeted.
+            case any
+            
+            public init(nilLiteral: ()) {
+                self = .none
+            }
+            
+            public init(from decoder: Decoder) throws {
+                let container = try decoder.singleValueContainer()
+                let names = try container.decode([String].self)
+                
+                guard !names.contains(CodingKeys.any.rawValue) else {
+                    self = .any; return
+                }
+                
+                let modifiers = try container.decode(Set<Keyboard.Modifier>.self)
+                self = (modifiers.isEmpty) ? .none : .modifiers(modifiers)
+            }
+            
+            public func encode(to encoder: Encoder) throws {
+                switch self {
+                case .none:
+                    var container = encoder.singleValueContainer()
+                    try container.encodeNil()
+                case .any:
+                    var container = encoder.unkeyedContainer()
+                    try container.encode(CodingKeys.any.rawValue)
+                case .modifiers(let modifiers):
+                    var container = encoder.unkeyedContainer()
+                    try container.encode(contentsOf: modifiers)
+                }
+            }
+            
+            private enum CodingKeys: String, CodingKey {
+                case any
+            }
+            
+            /// Checks whether the `.modifiers(set)` set is empty and if so, returns `.none`.
+            fileprivate func qualify() -> Filter {
+                guard case .modifiers(let modifiers) = self, modifiers.isEmpty else { return self }
+                return .none
+            }
+            
+            public static func == (lhs: Filter, rhs: Filter) -> Bool {
+                switch (lhs, rhs) {
+                case (.none, .none), (.any, .any): return true
+                case (.modifiers(let left), .modifiers(let right)): return left == right
+                default: return false
+                }
+            }
+        }
     }
 }
 
 public extension Manipulator.Input {
+    /// Lists of errors that can be triggered through an Output statement.
+    public enum Error: Swift.Error {
+        case invalidArguments(String)
+    }
+    
     /// Designated initializer, where only the type of input is required.
     /// - parameter type: The type of input detected.
     /// - parameter mandatory: Required modifiers for the input to be detected.
     /// - parameter optional:
-    public init(_ type: Kind, _ mandatory: Modifiers = .none, optional: Modifiers = .none) {
+    public init(_ type: Kind, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
         self.type = type
-        self.modifiers = (mandatory, optional)
+        self.modifiers = Modifiers(mandatory: mandatory, optional: optional)
     }
     
     public init(from decoder: Decoder) throws {
@@ -62,50 +199,34 @@ public extension Manipulator.Input {
         // Figure out the type of input.
         let type: Kind
         if let keyCode = try container.decodeIfPresent(Keyboard.Key.self, forKey: .keyCode) {
-            type = .key(keyCode)
-        } else if let button = try container.decodeIfPresent(Keyboard.Button.self, forKey: .button) {
-            type = .button(button)
-        } else if let customCode = try container.decodeIfPresent(String.self, forKey: .customCode) {
-            type = .custom(customCode)
+            type = .isKeyCode(keyCode)
+        } else if let button = try container.decodeIfPresent(Mouse.Button.self, forKey: .button) {
+            type = .isButton(button)
+        } else if let keyCode = try container.decodeIfPresent(ConsumerKeyCode.self, forKey: .customCode) {
+            type = .isConsumerKeyCode(keyCode)
         } else if let either = try container.decodeIfPresent(Kind.`Any`.self, forKey: .any) {
-            type = .any(either)
+            type = .isAny(of: either)
         } else {
             let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Impossible to figure out what input is expected (e.g. keyCode? pointing button?...)")
             throw DecodingError.dataCorrupted(context)
         }
-        /// Figure out the modifiers.
-        guard container.contains(.modifiers) else {
-            self.init(type, .none, optional: .none); return
-        }
         
-        let nestedContainer = try container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
-        let mandatory = try nestedContainer.decodeIfPresent(Modifiers.self, forKey: .mandatory) ?? .none
-        let optional = try nestedContainer.decodeIfPresent(Modifiers.self, forKey: .optional) ?? .none
-        self.init(type, mandatory, optional: optional)
+        let modifiers = try container.decodeIfPresent(Modifiers.self, forKey: .modifiers)
+        self.init(type, modifiers: modifiers ?? Modifiers())
     }
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch self.type {
-        case .key(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
-        case .button(let button): try container.encode(button, forKey: .button)
-        case .custom(let custom): try container.encode(custom, forKey: .customCode)
-        case .any(let either):    try container.encode(either.rawValue, forKey: .any)
+        case .isKeyCode(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
+        case .isButton(let button): try container.encode(button, forKey: .button)
+        case .isConsumerKeyCode(let custom): try container.encode(custom, forKey: .customCode)
+        case .isAny(of: let either):    try container.encode(either.rawValue, forKey: .any)
         }
         
-        switch self.modifiers {
-        case (let mandatory, .none) where mandatory != Modifiers.none:
-            var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
-            try nestedContainer.encode(mandatory, forKey: .mandatory)
-        case (.none, let optional) where optional != Modifiers.none:
-            var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
-            try nestedContainer.encode(optional, forKey: .optional)
-        case (let mandatory, let optional) where (mandatory != Modifiers.none) || (optional != Modifiers.none):
-            var nestedContainer = container.nestedContainer(keyedBy: CodingKeys.self, forKey: .modifiers)
-            if (mandatory != Modifiers.none) { try nestedContainer.encode(mandatory, forKey: .mandatory) }
-            if (optional != Modifiers.none) { try nestedContainer.encode(optional, forKey: .optional) }
-        default: break
+        if !self.isEmpty {
+            try container.encode(self.modifiers, forKey: .modifiers)
         }
     }
     
@@ -114,60 +235,13 @@ public extension Manipulator.Input {
         case button = "pointing_button"
         case customCode = "consumer_key_code"
         case any = "any"
-        case modifiers, mandatory, optional
-    }
-}
-
-public extension Manipulator.Input.Modifiers {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        
-        let strings = try container.decode(Set<String>.self)
-        guard !strings.isEmpty else { self = .none; return }
-        guard !strings.contains(CodingKeys.any.rawValue) else { self = .any; return }
-        
-        let modifiers: [Keyboard.Modifier] = try strings.map {
-            guard let result = Keyboard.Modifier(rawValue: $0) else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "\"\($0)\" is not a valid modifier.")
-            }
-            return result
-        }
-        
-        let result = Set<Keyboard.Modifier>(modifiers).filterSimilars()
-        guard !result.isEmpty else { self = .none; return }
-        self = .modifiers(result)
+        case modifiers
     }
     
-    public init(nilLiteral: ()) {
-        self = .none
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        switch self {
-        case .modifiers(let array):
-            var container = encoder.unkeyedContainer()
-            try container.encode(array)
-        case .any:
-            var container = encoder.unkeyedContainer()
-            try container.encode(CodingKeys.any.rawValue)
-        case .none:
-            var container = encoder.singleValueContainer()
-            try container.encodeNil()
-        }
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case any
-    }
-    
-    public static func == (lhs: Manipulator.Input.Modifiers, rhs: Manipulator.Input.Modifiers) -> Bool {
-        switch (lhs, rhs) {
-        case (.none, .none), (.any, .any):
-            return true
-        case (.modifiers(let lm), .modifiers(let rm)):
-            return lm == rm
-        default:
-            return false
+    fileprivate var isEmpty: Bool {
+        switch (self.modifiers.mandatory, self.modifiers.optional) {
+        case (.none, .none): return true
+        default: return false
         }
     }
 }

@@ -3,37 +3,37 @@ import Foundation
 public extension Manipulator {
     /// A condition that must be satisfied for an input to be recognized.
     public enum Condition: Codable {
-        case frontMostAppsIf(Apps)
-        case devicesIf(Devices)
-        case keyboardsIf(Keyboards)
-        case inputSourcesIf(InputSources)
-        case variableIf(Variable)
+        case ifFrontMostApps(Apps)
+        case ifDevices(Devices)
+        case ifKeyboards(Keyboards)
+        case ifInputSources(InputSources)
+        case ifVariable(Variable)
         
         public static func frontMostApps(_ presence: Presence, bundles: Set<String>? = nil, paths: Set<String>? = nil, title: String? = nil) -> Condition? {
             guard let app = try? Apps(presence, bundleIds: bundles, filePaths: paths, title: title) else { return nil }
-            return .frontMostAppsIf(app)
+            return .ifFrontMostApps(app)
         }
         
         public static func devices(_ presence: Presence, _ identifiers: [(vendorId: Int, productId: Int?, title: String?)], title: String? = nil) -> Condition? {
             let ids = identifiers.map { Devices.Identifier($2, vendorId: $0, productId: $1) }
             guard let devices = try? Devices(presence, Set(ids), title: title) else { return nil }
-            return .devicesIf(devices)
+            return .ifDevices(devices)
         }
         
         public static func keyboards(_ presence: Presence, _ types: Set<Keyboards.Kind>, title: String? = nil) -> Condition? {
             guard let types = try? Keyboards(presence, types, title: title) else { return nil }
-            return .keyboardsIf(types)
+            return .ifKeyboards(types)
         }
         
         public static func inputSources(_ presence: Presence, _ inputSources: [(language: String?, sourceId: String?, modeId: String?)], title: String? = nil) -> Condition? {
             guard let sources = try? inputSources.map({ try InputSources.Source(language: $0, identifier: $1, modeId: $2) }),
                   let inputs = try? InputSources(presence, Set(sources), title: title) else { return nil }
-            return .inputSourcesIf(inputs)
+            return .ifInputSources(inputs)
         }
         
         public static func variable(_ presence: Presence, _ name: String, value: Encodable, title: String? = nil) -> Condition? {
             guard let variable = try? Variable(presence, name, value: value, title: title) else { return nil }
-            return .variableIf(variable)
+            return .ifVariable(variable)
         }
     }
 }
@@ -337,15 +337,15 @@ public extension Manipulator.Condition {
         
         switch type {
         case Apps.CodingKeys.are.rawValue: fallthrough
-        case Apps.CodingKeys.areNot.rawValue: self = .frontMostAppsIf(try Apps(from: decoder))
+        case Apps.CodingKeys.areNot.rawValue: self = .ifFrontMostApps(try Apps(from: decoder))
         case Devices.CodingKeys.are.rawValue: fallthrough
-        case Devices.CodingKeys.areNot.rawValue: self = .devicesIf(try Devices(from: decoder))
+        case Devices.CodingKeys.areNot.rawValue: self = .ifDevices(try Devices(from: decoder))
         case Keyboards.CodingKeys.are.rawValue: fallthrough
-        case Keyboards.CodingKeys.areNot.rawValue: self = .keyboardsIf(try Keyboards(from: decoder))
+        case Keyboards.CodingKeys.areNot.rawValue: self = .ifKeyboards(try Keyboards(from: decoder))
         case InputSources.CodingKeys.are.rawValue: fallthrough
-        case InputSources.CodingKeys.areNot.rawValue: self = .inputSourcesIf(try InputSources(from: decoder))
+        case InputSources.CodingKeys.areNot.rawValue: self = .ifInputSources(try InputSources(from: decoder))
         case Variable.CodingKeys.are.rawValue: fallthrough
-        case Variable.CodingKeys.areNot.rawValue: self = .variableIf(try Variable(from: decoder))
+        case Variable.CodingKeys.areNot.rawValue: self = .ifVariable(try Variable(from: decoder))
         default:
             let errorDescription = "The value \"\(type)\" was not recognized for key: \"\(CodingKeys.type.rawValue)\""
             throw DecodingError.dataCorruptedError(forKey: .type, in: container.self, debugDescription: errorDescription)
@@ -354,15 +354,15 @@ public extension Manipulator.Condition {
     
     public func encode(to encoder: Encoder) throws {
         switch self {
-        case .frontMostAppsIf(let apps):
+        case .ifFrontMostApps(let apps):
             try apps.encode(to: encoder)
-        case .devicesIf(let devices):
+        case .ifDevices(let devices):
             try devices.encode(to: encoder)
-        case .keyboardsIf(let keyboards):
+        case .ifKeyboards(let keyboards):
             try keyboards.encode(to: encoder)
-        case .inputSourcesIf(let sources):
+        case .ifInputSources(let sources):
             try sources.encode(to: encoder)
-        case .variableIf(let variable):
+        case .ifVariable(let variable):
             try variable.encode(to: encoder)
         }
     }
