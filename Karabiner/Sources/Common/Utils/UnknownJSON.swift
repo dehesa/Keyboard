@@ -1,5 +1,6 @@
 import Foundation
 
+/// Namespace for JSON related functionality.
 public enum JSON {
     public struct UnknownValue: Codable {
         public let content: Encodable?

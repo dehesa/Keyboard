@@ -35,6 +35,14 @@ public extension Manipulator {
             guard let variable = try? Variable(presence, name, value: value, title: title) else { return nil }
             return .ifVariable(variable)
         }
+        
+//        public var hasValue: Int {
+//            <#Code#>
+//        }
+//
+//        public static func == (lhs: <#Type#>, rhs: <#Type#>) -> Bool {
+//            <#Code#>
+//        }
     }
 }
 
@@ -62,7 +70,7 @@ public extension Manipulator.Condition {
             self.presence = presence
             self.bundleIds = bundleIds.flatMap { $0.isEmpty ? nil : bundleIds }
             self.filePaths = filePaths.flatMap { $0.isEmpty ? nil : filePaths }
-            if self.bundleIds == nil && self.filePaths == nil { throw Error.invalidArguments("Any (or both) of the bundle identifiers or file paths must be provided.") }
+            if self.bundleIds == nil && self.filePaths == nil { throw Manipulator.Error.invalidArguments("Any (or both) of the bundle identifiers or file paths must be provided.") }
         }
         
         public init(from decoder: Decoder) throws {
@@ -71,8 +79,8 @@ public extension Manipulator.Condition {
             let presence = try Manipulator.Condition.presence(of: type, are: CodingKeys.are, areNot: CodingKeys.areNot, codingPath: container.codingPath)
             let title = try container.decodeIfPresent(String.self, forKey: .title)
             
-            let bundles = try container.decode(Set<String>.self, forKey: .bundleIds)
-            let paths = try container.decode(Set<String>.self, forKey: .filePaths)
+            let bundles = try container.decodeIfPresent(Set<String>.self, forKey: .bundleIds)
+            let paths = try container.decodeIfPresent(Set<String>.self, forKey: .filePaths)
             try self.init(presence, bundleIds: bundles, filePaths: paths, title: title)
         }
         
@@ -104,7 +112,7 @@ public extension Manipulator.Condition {
         public init(_ presence: Presence, _ identifiers: Set<Identifier>, title: String? = nil) throws {
             self.title = title.flatMap { $0.isEmpty ? nil : $0 }
             self.presence = presence
-            guard !identifiers.isEmpty else { throw Error.invalidArguments("At least one device shall be targeted.") }
+            guard !identifiers.isEmpty else { throw Manipulator.Error.invalidArguments("At least one device shall be targeted.") }
             self.identifiers = identifiers
         }
         
@@ -172,7 +180,7 @@ public extension Manipulator.Condition {
         public init(_ presence: Presence, _ types: Set<Kind>, title: String? = nil) throws {
             self.title = title.flatMap { $0.isEmpty ? nil : $0 }
             self.presence = presence
-            guard !types.isEmpty else { throw Error.invalidArguments("At least one device shall be targeted.") }
+            guard !types.isEmpty else { throw Manipulator.Error.invalidArguments("At least one device shall be targeted.") }
             self.types = types
         }
         
@@ -219,7 +227,7 @@ public extension Manipulator.Condition {
         public init(_ presence: Presence, _ sources: Set<Source>, title: String? = nil) throws {
             self.title = title.flatMap { $0.isEmpty ? nil : $0 }
             self.presence = presence
-            guard !sources.isEmpty else { throw Error.invalidArguments("At least one input source shall be targeted.") }
+            guard !sources.isEmpty else { throw Manipulator.Error.invalidArguments("At least one input source shall be targeted.") }
             self.sources = sources
         }
         
@@ -260,7 +268,7 @@ public extension Manipulator.Condition {
                 self.language = language.flatMap { $0.isEmpty ? nil : $0 }
                 self.identifier = identifier.flatMap { $0.isEmpty ? nil : $0 }
                 self.modeId = modeId.flatMap { $0.isEmpty ? nil : $0 }
-                if self.language == nil && self.identifier == nil && self.modeId == nil { throw Error.invalidArguments("At least a characteristic of an input source must be given.") }
+                if self.language == nil && self.identifier == nil && self.modeId == nil { throw Manipulator.Error.invalidArguments("At least a characteristic of an input source must be given.") }
             }
             
             public var hashValue: Int {
@@ -292,7 +300,7 @@ public extension Manipulator.Condition {
         public init(_ presence: Presence, _ name: String, value: Encodable?, title: String? = nil) throws {
             self.title = title.flatMap { $0.isEmpty ? nil : $0 }
             self.presence = presence
-            guard !name.isEmpty else { throw Error.invalidArguments("The variable name cannot be an empty string.") }
+            guard !name.isEmpty else { throw Manipulator.Error.invalidArguments("The variable name cannot be an empty string.") }
             self.name = name
             self.value = value
         }
@@ -354,16 +362,11 @@ public extension Manipulator.Condition {
     
     public func encode(to encoder: Encoder) throws {
         switch self {
-        case .ifFrontMostApps(let apps):
-            try apps.encode(to: encoder)
-        case .ifDevices(let devices):
-            try devices.encode(to: encoder)
-        case .ifKeyboards(let keyboards):
-            try keyboards.encode(to: encoder)
-        case .ifInputSources(let sources):
-            try sources.encode(to: encoder)
-        case .ifVariable(let variable):
-            try variable.encode(to: encoder)
+        case .ifFrontMostApps(let apps):   try apps.encode(to: encoder)
+        case .ifDevices(let devices):      try devices.encode(to: encoder)
+        case .ifKeyboards(let keyboards):  try keyboards.encode(to: encoder)
+        case .ifInputSources(let sources): try sources.encode(to: encoder)
+        case .ifVariable(let variable):    try variable.encode(to: encoder)
         }
     }
     

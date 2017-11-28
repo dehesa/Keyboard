@@ -18,6 +18,15 @@ public extension Manipulator {
         public init(_ type: Kind, modifiers: Modifiers) {
             (self.type, self.modifiers) = (type, modifiers)
         }
+        
+        /// Designated initializer, where only the type of input is required.
+        /// - parameter type: The type of input detected.
+        /// - parameter mandatory: Required modifiers for the input to be detected.
+        /// - parameter optional:
+        public init(_ type: Kind, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
+            self.type = type
+            self.modifiers = Modifiers(mandatory: mandatory, optional: optional)
+        }
     }
 }
 
@@ -66,7 +75,7 @@ public extension Manipulator.Input {
         
         /// Designated initializer
         public init(_ keyCode: String) throws {
-            guard !keyCode.isEmpty else { throw Error.invalidArguments("The consumer key code cannot be empty.") }
+            guard !keyCode.isEmpty else { throw Manipulator.Error.invalidArguments("The consumer key code cannot be empty.") }
             self.keyCode = keyCode
         }
         
@@ -180,20 +189,6 @@ public extension Manipulator.Input {
 }
 
 public extension Manipulator.Input {
-    /// Lists of errors that can be triggered through an Output statement.
-    public enum Error: Swift.Error {
-        case invalidArguments(String)
-    }
-    
-    /// Designated initializer, where only the type of input is required.
-    /// - parameter type: The type of input detected.
-    /// - parameter mandatory: Required modifiers for the input to be detected.
-    /// - parameter optional:
-    public init(_ type: Kind, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-        self.type = type
-        self.modifiers = Modifiers(mandatory: mandatory, optional: optional)
-    }
-    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         // Figure out the type of input.

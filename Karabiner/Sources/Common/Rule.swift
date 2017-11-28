@@ -6,9 +6,10 @@ public struct Rule: Codable {
     public let title: String
     /// The list of the manipulators offered by this rule dictionary.
     public let manipulators: [Manipulator]
-}
 
-public extension Rule {
+    /// Designated initializer for defining a new Karabiner rule.
+    /// - parameter title: The title/description of the definied rule.
+    /// - parameter manipulators: The defined list of manipulators (all are unique).
     public init(_ title: String, manipulators: [Manipulator]) throws {
         guard !title.isEmpty else { throw Rule.Error.invalidTitle(title) }
         guard !manipulators.isEmpty else { throw Rule.Error.invalidManipulators(manipulators) }

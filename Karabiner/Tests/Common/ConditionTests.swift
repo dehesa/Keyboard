@@ -13,30 +13,36 @@ class ConditionTests: XCTestCase {
         super.tearDown()
     }
     
-    func testDecoders() {
-        typealias Condition = Karabiner.Manipulator.Condition
-        let data = self.data(fileName: "example_device")!
-
+    func testDevices() {
         let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
         let decoder = JSONDecoder()
         
+        let (data, files) = ConditionTests.setup(fileName: "vi_style_arrows")
+        
         // Original file
-        let originalJSON = try? decoder.decode([String:JSON.UnknownValue].self, from: data)
-        let originalData = try? encoder.encode(originalJSON!)
-        let original = String(bytes: originalData!, encoding: .utf8)!
-        print("\n\n\(original)\n\n")
+        do {
+            let originalJSON = try decoder.decode([String:JSON.UnknownValue].self, from: data)
+            let originalData = try encoder.encode(originalJSON)
+            try originalData.write(to: files.original)
         
-        
-        let parsedJSON = try? decoder.decode(Karabiner.File.self, from: data)
-        let parsedData = try? encoder.encode(parsedJSON!)
-        let parsed = String(bytes: parsedData!, encoding: .utf8)!
-        print("\n\n\(parsed)\n\n")
+        // Parsed file
+            let parsedJSON = try decoder.decode(Karabiner.File.self, from: data)
+            let parsedData = try encoder.encode(parsedJSON)
+            try parsedData.write(to: files.modified)
+        } catch let error {
+            print("\n\n\(error)\n\n")
+        }
     }
     
-    private func data(fileName: String, fileExtension: String = "json") -> Data? {
-        guard let url = Bundle(for: ConditionTests.self).url(forResource: fileName, withExtension: fileExtension) else { return nil }
-        return try? Data(contentsOf: url)
+    internal static func setup(fileName: String) -> (data: Data, url: (original: URL, modified: URL)) {
+        guard let bundleFileURL = Bundle(for: ConditionTests.self).url(forResource: fileName, withExtension: "json") else { fatalError("JSON file \"\(fileName).json\" for testing not found!") }
+        guard let data = try? Data(contentsOf: bundleFileURL) else { fatalError("JSON file \"\(fileName).json\" couldn't be parsed into data.") }
+        
+        let home = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Desktop")
+        let original = home.appendingPathComponent("original").appendingPathExtension("json")
+        let modified = home.appendingPathComponent("modified").appendingPathExtension("json")
+        
+        return (data, (original, modified))
     }
 }

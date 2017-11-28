@@ -8,7 +8,7 @@ public enum Keyboard {
     public enum Key: String, Codable {
         // Keys by keyboard rows
         case accentGrave="grave_accent_and_tilde", one="1", two="2", three="3", four="4", five="5", six="6", seven="7", eight="8", nine="9", zero="0", hyphen="hyphen", equal="equal_sign", backspace="delete_or_backspace"
-        case tab, q, w, e, r, t, y, u, i, o, p, bracketOpen="open_bracket", bracketClose="close_bracket"
+        case escape, tab, q, w, e, r, t, y, u, i, o, p, bracketOpen="open_bracket", bracketClose="close_bracket"
         case a, s, d, f, g, h, j, k, l, semicolon, quote, backslash, enter="return_or_enter"
         case backslashAlternate="non_us_backslash", z, x, c, v, b, n, m, comma, period, slash, space="spacebar"
         // Arrow keys
@@ -25,6 +25,13 @@ public enum Keyboard {
         case rewind, play="play_or_pause", fastForward="fastforward", mute, volumeDown="volume_decrement", volumeUp="volume_increment"
         case appleDisplayBrightnessDown="apple_display_brightness_decrement", appleDisplayBrightnessUp="apple_display_brightness_increment"
         case appleTopCaseDisplayBrightnessDown="apple_top_case_display_brightness_decrement", appleDisplayTopCaseBrightnessUp="apple_top_case_display_brightness_increment"
+        // Modifiers
+        case caps = "caps_lock"
+        case shift, shiftL = "left_shift", shiftR = "right_shift"
+        case control, controlL = "left_control", controlR = "right_control"
+        case option, optionL = "left_option", optionR = "right_option"
+        case command, commandL = "left_command", commandR = "right_command"
+        case fn
     }
     
     /// List of all keyboard modifier keys.
