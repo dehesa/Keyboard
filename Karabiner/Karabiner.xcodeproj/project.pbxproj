@@ -100,6 +100,7 @@
 		8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BC1FC6DE6600F8882B /* Rule.swift */; };
 		8D6DF9BF1FC6DFE000F8882B /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */; };
 		8D6DF9C21FC6E2AA00F8882B /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9C11FC6E2AA00F8882B /* Condition.swift */; };
+		8D8CF4E81FCF490D00B5EFB5 /* MarcosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */; };
 		8D915DC41FC6642000C5FF38 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D915DC31FC6642000C5FF38 /* Output.swift */; };
 		8DBE0EE71FC6FD60004658B4 /* UnknownJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */; };
 		8DC034F61FCAD23E00B06895 /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC034F51FCAD23E00B06895 /* Mouse.swift */; };
@@ -217,6 +218,7 @@
 		8D6DF9BC1FC6DE6600F8882B /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
 		8D6DF9C11FC6E2AA00F8882B /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
+		8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarcosTests.swift; sourceTree = "<group>"; };
 		8D915DC31FC6642000C5FF38 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
 		8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownJSON.swift; sourceTree = "<group>"; };
 		8DC034F51FCAD23E00B06895 /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				8D3463071FC77CB10022E2A3 /* ConditionTests.swift */,
+				8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -654,6 +657,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D8CF4E81FCF490D00B5EFB5 /* MarcosTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

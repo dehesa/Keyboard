@@ -10,15 +10,9 @@ public struct File: Codable {
     /// Designated initializer to create a Karabiner file from the ground up.
     /// - parameter title: The title of the creating file.
     /// - parameter rules: All the rules hosted within the newly created file.
-    public init(_ title: String, rules: [Rule]) throws {
-        guard !title.isEmpty else { throw File.Error.invalidTitle(title) }
-        guard !rules.isEmpty else { throw File.Error.invalidRules(rules) }
+    public init(_ title: String, rules: [Rule]) {
+        guard !title.isEmpty else { fatalError("The file's title is empty.") }
+        guard !rules.isEmpty else { fatalError("The file's rules are empty.") }
         (self.title, self.rules) = (title, rules)
-    }
-
-    /// List of possible errors thrown by the Karabiner files.
-    public enum Error: Swift.Error {
-        case invalidTitle(String)
-        case invalidRules([Rule])
     }
 }

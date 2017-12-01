@@ -7,7 +7,7 @@ public enum Keyboard {
     /// - notes: For more keys, check: https://github.com/tekezo/Karabiner-Elements/issues/925
     public enum Key: String, Codable {
         // Keys by keyboard rows
-        case accentGrave="grave_accent_and_tilde", one="1", two="2", three="3", four="4", five="5", six="6", seven="7", eight="8", nine="9", zero="0", hyphen="hyphen", equal="equal_sign", backspace="delete_or_backspace"
+        case accentGrave="grave_accent_and_tilde", one="1", two="2", three="3", four="4", five="5", six="6", seven="7", eight="8", nine="9", zero="0", hyphen="hyphen", equal="equal_sign", deleteBack="delete_or_backspace", deleteForward="delete_forward"
         case escape, tab, q, w, e, r, t, y, u, i, o, p, bracketOpen="open_bracket", bracketClose="close_bracket"
         case a, s, d, f, g, h, j, k, l, semicolon, quote, backslash, enter="return_or_enter"
         case backslashAlternate="non_us_backslash", z, x, c, v, b, n, m, comma, period, slash, space="spacebar"

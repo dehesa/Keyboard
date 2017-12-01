@@ -10,19 +10,13 @@ public struct Rule: Codable {
     /// Designated initializer for defining a new Karabiner rule.
     /// - parameter title: The title/description of the definied rule.
     /// - parameter manipulators: The defined list of manipulators (all are unique).
-    public init(_ title: String, manipulators: [Manipulator]) throws {
-        guard !title.isEmpty else { throw Rule.Error.invalidTitle(title) }
-        guard !manipulators.isEmpty else { throw Rule.Error.invalidManipulators(manipulators) }
+    public init(_ title: String, manipulators: [Manipulator]) {
+        guard !title.isEmpty else { fatalError("The rule's title is empty.") }
+        guard !manipulators.isEmpty else { fatalError("The rule's manipulators are empty.") }
         (self.title, self.manipulators) = (title, manipulators)
     }
-    
-    /// List of possible errors thrown by the Karabiner rule.
-    public enum Error: Swift.Error {
-        case invalidTitle(String)
-        case invalidManipulators([Manipulator])
-    }
 
-    fileprivate enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case title="description", manipulators
     }
 }

@@ -22,17 +22,6 @@ public struct Manipulator: Codable {
     public let outputs: Triggers
     /// Parameters to be applied for this specific manipulator.
     public let parameters: Set<Parameter>?
-}
-
-public extension Manipulator {
-    public enum Kind: String, Codable {
-        case basic
-    }
-    
-    /// Lists of errors that can be triggered on a Manipulator action/initializer.
-    public enum Error: Swift.Error {
-        case invalidArguments(String)
-    }
     
     public init(_ title: String? = nil, input: Input, conditions: [Condition]? = nil, outputs: Triggers, parameters: Set<Parameter>? = nil) {
         self.title = title.flatMap { $0.isEmpty ? nil : $0 }
@@ -42,7 +31,13 @@ public extension Manipulator {
         self.outputs = outputs
         self.parameters = parameters.flatMap { $0.isEmpty ? nil : $0 }
     }
-    
+
+    public enum Kind: String, Codable {
+        case basic
+    }
+}
+
+public extension Manipulator {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let _ = try container.decode(Kind.self, forKey: .type)
@@ -53,7 +48,7 @@ public extension Manipulator {
         
         var parameters = Set<Parameter>()
         if container.contains(.parameters) {
-            let nested = try container.nestedContainer(keyedBy: Manipulator.Parameter.CodingKeys.self, forKey: .parameters)
+            let nested = try container.nestedContainer(keyedBy: Parameter.CodingKeys.self, forKey: .parameters)
             for key in nested.allKeys {
                 parameters.insert(try Parameter(key: key, container: nested))
             }
@@ -69,7 +64,7 @@ public extension Manipulator {
         try container.encodeIfPresent(self.conditions, forKey: .conditions)
         try self.outputs.encode(to: encoder)
         if let parameters = self.parameters, !parameters.isEmpty {
-            var _ = container.nestedContainer(keyedBy: Manipulator.Parameter.CodingKeys.self, forKey: .parameters)
+            var _ = container.nestedContainer(keyedBy: Parameter.CodingKeys.self, forKey: .parameters)
             for param in parameters {
                 try param.encode(to: encoder)
             }

@@ -1,65 +1,60 @@
 import Foundation
 
-public extension Manipulator {
-    /// The input state received.
-    ///
-    /// This refers to which key code and modifiers are being pressed right now.
-    /// The existance (or not) of modifiers, affect the input on the following ways:
-    /// - when no modifiers are defined, events are recognized only when the targeted keyCode/button/etc. is pressed, but any modifier is not.
-    /// - when there are only mandatory modifiers (but no optionals), events are recognized only when the targeted keyCode/button/etc. is pressed and the specified modifier too. If other modifiers are presed, the event is not recognized.
-    /// - when there are only optional modifiers (but no mandatory), events are recognized even when the optinal modifiers are pressed (or not).
-    public struct Input: Codable {
-        /// The type of input state received from the keyboard.
-        public let type: Kind
-        /// List of modifiers applied to this input (whether required or optional).
-        public let modifiers: Modifiers
-        
-        /// Designated initializer
-        public init(_ type: Kind, modifiers: Modifiers) {
-            (self.type, self.modifiers) = (type, modifiers)
-        }
-        
-        /// Designated initializer, where only the type of input is required.
-        /// - parameter type: The type of input detected.
-        /// - parameter mandatory: Required modifiers for the input to be detected.
-        /// - parameter optional:
-        public init(_ type: Kind, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-            self.type = type
-            self.modifiers = Modifiers(mandatory: mandatory, optional: optional)
-        }
+/// The input state received.
+///
+/// This refers to which key code and modifiers are being pressed right now.
+/// The existance (or not) of modifiers, affect the input on the following ways:
+/// - when no modifiers are defined, events are recognized only when the targeted keyCode/button/etc. is pressed, but any modifier is not.
+/// - when there are only mandatory modifiers (but no optionals), events are recognized only when the targeted keyCode/button/etc. is pressed and the specified modifier too. If other modifiers are presed, the event is not recognized.
+/// - when there are only optional modifiers (but no mandatory), events are recognized even when the optinal modifiers are pressed (or not).
+public struct Input: Codable {
+    /// The type of input state received from the keyboard.
+    public let type: Kind
+    /// List of modifiers applied to this input (whether required or optional).
+    public let modifiers: Modifiers
+    
+    /// Designated initializer
+    public init(_ type: Kind, modifiers: Modifiers) {
+        (self.type, self.modifiers) = (type, modifiers)
     }
-}
-
-public extension Manipulator.Input {
+    
+    /// Designated initializer, where only the type of input is required.
+    /// - parameter type: The type of input detected.
+    /// - parameter mandatory: Required modifiers for the input to be detected.
+    /// - parameter optional:
+    public init(_ type: Kind, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
+        self.type = type
+        self.modifiers = Modifiers(mandatory: mandatory, optional: optional)
+    }
+    
+    public init(keyCode code: Keyboard.Key, mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
+        self.init(.keyCode(code), mandatory, optional: optional)
+    }
+    
+    public init(button: Mouse.Button, mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
+        self.init(.button(button), mandatory, optional: optional)
+    }
+    
+    public init(consumerKeyCode code: String, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
+        self.init(.consumerKeyCode(ConsumerKeyCode(code)), mandatory, optional: optional)
+    }
+    
+    public init(any input: Input.Kind.`Any`, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
+        self.init(.any(input), mandatory, optional: optional)
+    }
+    
     /// Type of inputs expected from the keyboard.
     ///
     /// Only one can be active at a time.
     public enum Kind {
         /// A key press (with its associated key code).
-        case isKeyCode(Keyboard.Key)
+        case keyCode(Keyboard.Key)
         /// A mouse button.
-        case isButton(Mouse.Button)
+        case button(Mouse.Button)
         /// A customer specific key code.
-        case isConsumerKeyCode(ConsumerKeyCode)
+        case consumerKeyCode(ConsumerKeyCode)
         /// Either any key press, or any button click, or any custom key press.
-        case isAny(of: Manipulator.Input.Kind.`Any`)
-        
-        public static func key(code: Keyboard.Key) -> Kind {
-            return .isKeyCode(code)
-        }
-        
-        public static func button(_ button: Mouse.Button) -> Kind {
-            return .isButton(button)
-        }
-        
-        public static func consumer(keyCode: String) -> Kind? {
-            guard let consumerKeyCode = try? ConsumerKeyCode(keyCode) else { return nil }
-            return .isConsumerKeyCode(consumerKeyCode)
-        }
-        
-        public static func any(of input: Manipulator.Input.Kind.`Any`) -> Kind {
-            return .isAny(of: input)
-        }
+        case any(Input.Kind.`Any`)
         
         /// Convey the idea of any key press, mouse click, or customer key code.
         public enum `Any`: String, Codable {
@@ -74,14 +69,14 @@ public extension Manipulator.Input {
         public let keyCode: String
         
         /// Designated initializer
-        public init(_ keyCode: String) throws {
-            guard !keyCode.isEmpty else { throw Manipulator.Error.invalidArguments("The consumer key code cannot be empty.") }
+        public init(_ keyCode: String) {
+            guard !keyCode.isEmpty else { fatalError("The input's consumer key code cannot be empty.") }
             self.keyCode = keyCode
         }
         
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
-            try self.init(try container.decode(String.self))
+            self.init(try container.decode(String.self))
         }
         
         public func encode(to encoder: Encoder) throws {
@@ -99,7 +94,7 @@ public extension Manipulator.Input {
         
         public init(mandatory: Filter = .none, optional: Filter = .none) {
             self.mandatory = mandatory.qualify()
-            self.optional = mandatory.qualify()
+            self.optional = optional.qualify()
         }
         
         public init(from decoder: Decoder) throws {
@@ -188,19 +183,19 @@ public extension Manipulator.Input {
     }
 }
 
-public extension Manipulator.Input {
+public extension Input {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         // Figure out the type of input.
         let type: Kind
         if let keyCode = try container.decodeIfPresent(Keyboard.Key.self, forKey: .keyCode) {
-            type = .isKeyCode(keyCode)
+            type = .keyCode(keyCode)
         } else if let button = try container.decodeIfPresent(Mouse.Button.self, forKey: .button) {
-            type = .isButton(button)
+            type = .button(button)
         } else if let keyCode = try container.decodeIfPresent(ConsumerKeyCode.self, forKey: .customCode) {
-            type = .isConsumerKeyCode(keyCode)
+            type = .consumerKeyCode(keyCode)
         } else if let either = try container.decodeIfPresent(Kind.`Any`.self, forKey: .any) {
-            type = .isAny(of: either)
+            type = .any(either)
         } else {
             let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Impossible to figure out what input is expected (e.g. keyCode? pointing button?...)")
             throw DecodingError.dataCorrupted(context)
@@ -214,15 +209,14 @@ public extension Manipulator.Input {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         switch self.type {
-        case .isKeyCode(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
-        case .isButton(let button): try container.encode(button, forKey: .button)
-        case .isConsumerKeyCode(let custom): try container.encode(custom, forKey: .customCode)
-        case .isAny(of: let either):    try container.encode(either.rawValue, forKey: .any)
+        case .keyCode(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
+        case .button(let button): try container.encode(button, forKey: .button)
+        case .consumerKeyCode(let custom): try container.encode(custom, forKey: .customCode)
+        case .any(let either):    try container.encode(either.rawValue, forKey: .any)
         }
         
-        if !self.isEmpty {
-            try container.encode(self.modifiers, forKey: .modifiers)
-        }
+        if case .none = self.modifiers.mandatory, case .none = self.modifiers.optional { return }
+        try container.encode(self.modifiers, forKey: .modifiers)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -231,12 +225,5 @@ public extension Manipulator.Input {
         case customCode = "consumer_key_code"
         case any = "any"
         case modifiers
-    }
-    
-    fileprivate var isEmpty: Bool {
-        switch (self.modifiers.mandatory, self.modifiers.optional) {
-        case (.none, .none): return true
-        default: return false
-        }
     }
 }
