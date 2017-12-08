@@ -102,6 +102,7 @@
 		8D6DF9C21FC6E2AA00F8882B /* Condition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9C11FC6E2AA00F8882B /* Condition.swift */; };
 		8D8CF4E81FCF490D00B5EFB5 /* MarcosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */; };
 		8D915DC41FC6642000C5FF38 /* Output.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D915DC31FC6642000C5FF38 /* Output.swift */; };
+		8D9EC1D61FD92E2C001C4D36 /* JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */; };
 		8DBE0EE71FC6FD60004658B4 /* UnknownJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */; };
 		8DC034F61FCAD23E00B06895 /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC034F51FCAD23E00B06895 /* Mouse.swift */; };
 		8DD85BFB1FC639EF006FA9B1 /* Karabiner.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DD85BFA1FC639EF006FA9B1 /* Karabiner.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -122,7 +123,6 @@
 		8D3462F71FC778DA0022E2A3 /* KarabinerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KarabinerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D3463051FC77BEE0022E2A3 /* macOS_Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Tests.xcconfig; sourceTree = "<group>"; };
 		8D3463061FC77BEE0022E2A3 /* macOS_Tests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = macOS_Tests.plist; sourceTree = "<group>"; };
-		8D3463071FC77CB10022E2A3 /* ConditionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConditionTests.swift; sourceTree = "<group>"; };
 		8D54980B1FC8438100EAFA18 /* example_device.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = example_device.json; sourceTree = "<group>"; };
 		8D54980C1FC8438100EAFA18 /* neo2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = neo2.json; sourceTree = "<group>"; };
 		8D54980D1FC8438100EAFA18 /* vimium.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vimium.json; sourceTree = "<group>"; };
@@ -220,6 +220,7 @@
 		8D6DF9C11FC6E2AA00F8882B /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
 		8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarcosTests.swift; sourceTree = "<group>"; };
 		8D915DC31FC6642000C5FF38 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
+		8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTests.swift; sourceTree = "<group>"; };
 		8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownJSON.swift; sourceTree = "<group>"; };
 		8DC034F51FCAD23E00B06895 /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
 		8DD85BE51FC63991006FA9B1 /* Karabiner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Karabiner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -261,8 +262,8 @@
 		8D3463031FC77BDB0022E2A3 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				8D3463071FC77CB10022E2A3 /* ConditionTests.swift */,
 				8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */,
+				8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -658,6 +659,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D8CF4E81FCF490D00B5EFB5 /* MarcosTests.swift in Sources */,
+				8D9EC1D61FD92E2C001C4D36 /* JSONTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

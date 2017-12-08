@@ -3,16 +3,16 @@ import Foundation
 /// Events sent after an input is recognized and a condition is met.
 public struct Triggers: Codable {
     /// Events sent after the input is recognized.
-    public let press: Set<Output>?
+    public let press: [Output]?
     /// Events sent after the input occurs alone (with no other interference).
-    public let pressAlone: Set<Output>?
+    public let pressAlone: [Output]?
     /// Events sent after the input is released.
-    public let release: Set<Output>?
+    public let release: [Output]?
     /// Events sent after a time delay (specified on the parameters dictionary).
     public let delayed: DelayedActions?
     
     /// Designated initializer
-    public init(press: Set<Output>? = nil, pressAlone: Set<Output>? = nil, release: Set<Output>? = nil, delayed: (confirmed: Set<Output>?, cancelled: Set<Output>?)? = nil) {
+    public init(press: [Output]? = nil, pressAlone: [Output]? = nil, release: [Output]? = nil, delayed: (confirmed: [Output]?, cancelled: [Output]?)? = nil) {
         self.press = press.flatMap { $0.isEmpty ? nil : $0 }
         self.pressAlone = pressAlone.flatMap { $0.isEmpty ? nil : $0 }
         self.release = release.flatMap { $0.isEmpty ? nil : $0 }
@@ -29,12 +29,12 @@ public struct Triggers: Codable {
     
     public struct DelayedActions: Codable {
         /// Events sent after a default amount of milliseconds since the input was "pressed" (default = "500 milliseconds").
-        public let confirmed: Set<Output>?
+        public let confirmed: [Output]?
         /// Events sent if another input was triggered before the default amount of milliseconds past.
-        public let cancelled: Set<Output>?
+        public let cancelled: [Output]?
         
         /// Designated initializer
-        public init(_ confirmed: Set<Output>? = nil, cancelled: Set<Output>? = nil) {
+        public init(_ confirmed: [Output]? = nil, cancelled: [Output]? = nil) {
             self.confirmed = confirmed.flatMap { $0.isEmpty ? nil : $0 }
             self.cancelled = cancelled.flatMap { $0.isEmpty ? nil : $0 }
             guard (self.confirmed != nil) && (self.cancelled != nil) else {
