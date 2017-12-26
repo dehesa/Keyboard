@@ -1,7 +1,7 @@
 import Foundation
 
 /// One parameters that can be set up for a manipulator.
-public enum Parameter: Hashable, Encodable {
+public enum Parameter: Hashable {
     /// Default is 0.5 seconds
     case delay(seconds: TimeInterval)
     /// Default is 1.0 seconds
@@ -18,8 +18,7 @@ public enum Parameter: Hashable, Encodable {
         }
     }
     
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
+    internal func encode(on container: inout KeyedEncodingContainer<CodingKeys>) throws {
         switch self {
         case .delay(seconds: let seconds):      try container.encode(seconds.toMilliseconds, forKey: .delay)
         case .pressAlone(seconds: let seconds): try container.encode(seconds.toMilliseconds, forKey: .pressAlone)

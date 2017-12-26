@@ -6,7 +6,7 @@ class MarcosTests: XCTestCase {
     let mode: (left: String, right: String, shift: String) = ("mode_left", "mode_right", "mode_shift")
 
     func testMarcos() {
-        let rules = [rulesLeft(), rulesRight(), rulesShift(), rulesMouse()].flatMap { $0 }
+        let rules = [rulesLeft(), rulesRight(), rulesBoth(), rulesShift(), rulesMouse()].flatMap { $0 }
         let file = File("Marcos basics", rules: rules)
 
         let desktop = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".config/karabiner/assets/complex_modifications")
@@ -74,6 +74,7 @@ class MarcosTests: XCTestCase {
         let notLeft = Condition(.are, variableName: mode.left,  value: 0, "Check that Left Mode is inactive")
         let modeCondition = [isRight, notLeft]
         
+        /// Rule providing all keypad numbers and symbols on
         let ruleKeyPad = { (pairs) -> Rule in
             Rule("Right mode (keypad)", manipulators: pairs.map { (i, o) in
                 Manipulator("\(mode.right)+\(i.rawValue.uppercased) -> \(o.rawValue)", input: Input(keyCode: i, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: o)]))
@@ -86,14 +87,35 @@ class MarcosTests: XCTestCase {
     }
     
     private func rulesShift() -> [Rule] {
+        /// Rule for Shift, parentheses, and Caps.
         let ruleBasic = Rule("Shift mode", manipulators: [
-            Manipulator("Left Shift -> (",   input: Input(keyCode: .shiftL, mandatory: .none, optional: .none), outputs: Triggers(press: [Output(keyCode: .shiftL)], pressAlone: [Output(keyCode: .eight, modifiers: [.shift])])),
-            Manipulator("Right Shift -> )",  input: Input(keyCode: .shiftR, mandatory: .none, optional: .none), outputs: Triggers(press: [Output(keyCode: .shiftR)], pressAlone: [Output(keyCode: .nine,  modifiers: [.shift])])),
+            Manipulator("Left Shift -> (",   input: Input(keyCode: .shiftL, mandatory: .none, optional: .none), outputs: Triggers(press: [Output(keyCode: .shiftL)], pressAlone: [Output(keyCode: .eight, modifiers: [.shift])]), parameters: [.pressAlone(seconds: 0.66)]),
+            Manipulator("Right Shift -> )",  input: Input(keyCode: .shiftR, mandatory: .none, optional: .none), outputs: Triggers(press: [Output(keyCode: .shiftR)], pressAlone: [Output(keyCode: .nine,  modifiers: [.shift])]), parameters: [.pressAlone(seconds: 0.66)]),
             Manipulator("R+L Shift -> Caps", input: Input(keyCode: .shiftL, mandatory: .modifiers([.shiftR]), optional: .modifiers([.caps])), outputs: Triggers(press: [Output(keyCode: .caps)])),
             Manipulator("L+R Shift -> Caps", input: Input(keyCode: .shiftR, mandatory: .modifiers([.shiftL]), optional: .modifiers([.caps])), outputs: Triggers(press: [Output(keyCode: .caps)]))
         ])
         
         return [ruleBasic]
+    }
+    
+    private func rulesBoth() -> [Rule] {
+        /// Condition to check the "both" state.
+        let isRight = Condition(.are, variableName: mode.right, value: 1, "Check that Right Mode is active")
+        let isLeft = Condition(.are, variableName: mode.left,  value: 1, "Check that Left Mode is active")
+        /// Xcode condition
+        let xcode = Condition(.are, frontMostApps: (bundles: ["com.apple.dt.Xcode"], paths: nil), "Check for Xcode as frontmost app")
+        
+        /// Rule for navigation around the Xcode editors/areas.
+        let ruleNavigation = Rule("Xcode navigation", manipulators: [
+            Manipulator("Both+F -> ⌘+⌥+Ñ",   input: Input(keyCode: .f, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .option])])),
+            Manipulator("Both+S -> ⌘+⌥+⇧+Ñ", input: Input(keyCode: .s, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .option, .shift])])),
+            Manipulator("Both+E -> ⌘+⌃+Ñ",   input: Input(keyCode: .e, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .control])])),
+            Manipulator("Both+D -> ⌘+⌃+⇧+Ñ", input: Input(keyCode: .d, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .control, .shift])]))
+        ])
+        
+        ///
+        
+        return [ruleNavigation]
     }
     
     private func rulesMouse() -> [Rule] {

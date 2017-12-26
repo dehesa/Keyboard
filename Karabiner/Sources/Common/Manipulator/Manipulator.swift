@@ -64,9 +64,9 @@ public extension Manipulator {
         try container.encodeIfPresent(self.conditions, forKey: .conditions)
         try self.outputs.encode(to: encoder)
         if let parameters = self.parameters, !parameters.isEmpty {
-            var _ = container.nestedContainer(keyedBy: Parameter.CodingKeys.self, forKey: .parameters)
+            var nestedContainer = container.nestedContainer(keyedBy: Parameter.CodingKeys.self, forKey: .parameters)
             for param in parameters {
-                try param.encode(to: encoder)
+                try param.encode(on: &nestedContainer)
             }
         }
     }
