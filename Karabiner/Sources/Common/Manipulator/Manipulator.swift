@@ -23,6 +23,12 @@ public struct Manipulator: Codable {
     /// Parameters to be applied for this specific manipulator.
     public let parameters: Set<Parameter>?
     
+    /// Designated initializer for the manipulator.
+    /// - parameter title: The title for the manipulator to be displayed on the Karabiner app.
+    /// - parameter input: The input events to listen to.
+    /// - parameter conditions: The conditions applied for the input to be recognized.
+    /// - parameter outputs: The events to be sent when the input are triggered.
+    /// - parameter parameters: Parameters modifying the state for this specific manipulator.
     public init(_ title: String? = nil, input: Input, conditions: [Condition]? = nil, outputs: Triggers, parameters: Set<Parameter>? = nil) {
         self.title = title.flatMap { $0.isEmpty ? nil : $0 }
         self.type = .basic

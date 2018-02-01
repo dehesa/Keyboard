@@ -16,6 +16,8 @@ class MarcosTests: XCTestCase {
         try! data.write(to: url)
     }
     
+    /// Rules that are triggered once the "Left" mode is active (a.k.a. The "Caps" key is pressed).
+    /// - returns The rule identifying the "Left" mode and all other rules associated exclusively with it.
     private func rulesLeft() -> [Rule] {
         /// Rule that triggers the left mode.
         let ruleBasic = Rule("Left mode", manipulators: [
@@ -23,22 +25,16 @@ class MarcosTests: XCTestCase {
         ])
         
         /// Condition that checks whether the left mode is active.
-        let isLeft   = Condition(.are, variableName: mode.left,  value: 1, "Check that Left Mode is active")
-        let notRight = Condition(.are, variableName: mode.right, value: 0, "Check that Right Mode is inactive")
-        let modeCondition = [isLeft, notRight]
+        let modeCondition = [ Condition(.are, variableName: mode.left,  value: 1, "Check that Left Mode is active"),
+                              Condition(.are, variableName: mode.right, value: 0, "Check that Right Mode is inactive") ]
         
         /// Handle the arrow keys.
-        let ruleArrows = { (pairs) -> Rule in
-            let directional = pairs.map { (i, o) in
-                Manipulator("\(mode.left)+\(i.rawValue.uppercased) -> \(o.rawValue)", input: Input(keyCode: i, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: o)]))
-            }
-            let leaps = [
-                Manipulator("\(mode.left)+U", input: Input(keyCode: .u, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .up), count: 10))),
-                Manipulator("\(mode.left)+M", input: Input(keyCode: .m, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .down), count: 10)))
-            ]
-            
-            return Rule("Left mode (arrows)", manipulators: directional+leaps)
-        }( [(Keyboard.Key.j,Keyboard.Key.left), (.i,.up), (.k,.down), (.l,.right)] )
+        let ruleArrows = Rule("Left mode (arrows)", manipulators: [
+            Manipulator("\(mode.left)+J -> ←", input: Input(keyCode: .j, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .left)])),
+            Manipulator("\(mode.left)+I -> ↑", input: Input(keyCode: .i, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .up)])),
+            Manipulator("\(mode.left)+K -> ↓", input: Input(keyCode: .k, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .down)])),
+            Manipulator("\(mode.left)+L -> →", input: Input(keyCode: .l, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .right)]))
+        ])
         
         /// Handle Delete and Enter
         let ruleDelete = Rule("Left mode (delete, enter, escape)", manipulators: [
@@ -70,20 +66,46 @@ class MarcosTests: XCTestCase {
         ])
         
         /// Condition that checks whether the right mode is active.
-        let isRight = Condition(.are, variableName: mode.right, value: 1, "Check that Right Mode is active")
-        let notLeft = Condition(.are, variableName: mode.left,  value: 0, "Check that Left Mode is inactive")
-        let modeCondition = [isRight, notLeft]
+        let modeCondition = [ Condition(.are, variableName: mode.right, value: 1, "Check that Right Mode is active"),
+                              Condition(.are, variableName: mode.left,  value: 0, "Check that Left Mode is inactive") ]
         
         /// Rule providing all keypad numbers and symbols on
-        let ruleKeyPad = { (pairs) -> Rule in
+        let ruleKeyPad = { (pairs: [(Keyboard.Key,Keyboard.Key)]) -> Rule in
             Rule("Right mode (keypad)", manipulators: pairs.map { (i, o) in
                 Manipulator("\(mode.right)+\(i.rawValue.uppercased) -> \(o.rawValue)", input: Input(keyCode: i, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: o)]))
             })
-        }( [(Keyboard.Key.a,Keyboard.Key.pad0), (.s,.pad1), (.d,.pad2), (.f,.pad3), (.g,.pad4),
+        }( [(.a,.pad0), (.s,.pad1), (.d,.pad2), (.f,.pad3), (.g,.pad4),
             (.q,.pad5), (.w,.pad6), (.e,.pad7), (.r,.pad8), (.t,.pad9),
             (.z,.padPeriod), (.accentGrave,.padSlash), (.x,.padPlus), (.c,.padHyphen), (.v,.padAsterisk), (.b,.padEqual)] )
         
         return [ruleBasic, ruleKeyPad]
+    }
+    
+    private func rulesBoth() -> [Rule] {
+        /// Condition to check the "both" state.
+        let modeCondition = [ Condition(.are, variableName: mode.left, value: 1, "Check that Left Mode is active"),
+                              Condition(.are, variableName: mode.right, value: 1, "Check that Right Mode is active") ]
+        
+        /// Handle leaps in arrow keys.
+        let ruleArrows = Rule("Both mode (arrows)", manipulators: [
+            Manipulator("\(mode.left)+\(mode.right)+J -> 15+←", input: Input(keyCode: .j, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .left), count: 15))),
+            Manipulator("\(mode.left)+\(mode.right)+I -> 8+↑",  input: Input(keyCode: .i, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .up), count: 8))),
+            Manipulator("\(mode.left)+\(mode.right)+K -> 8+↓",  input: Input(keyCode: .k, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .down), count: 8))),
+            Manipulator("\(mode.left)+\(mode.right)+L -> 15+→", input: Input(keyCode: .l, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .right), count: 15)))
+        ])
+        
+//        /// Xcode condition
+//        let xcode = Condition(.are, frontMostApps: (bundles: ["com.apple.dt.Xcode"], paths: nil), "Check for Xcode as frontmost app")
+//
+//        /// Rule for navigation around the Xcode editors/areas.
+//        let ruleNavigation = Rule("Xcode navigation", manipulators: [
+//            Manipulator("Both+F -> ⌘+⌥+Ñ",   input: Input(keyCode: .f, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .option])])),
+//            Manipulator("Both+S -> ⌘+⌥+⇧+Ñ", input: Input(keyCode: .s, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .option, .shift])])),
+//            Manipulator("Both+E -> ⌘+⌃+Ñ",   input: Input(keyCode: .e, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .control])])),
+//            Manipulator("Both+D -> ⌘+⌃+⇧+Ñ", input: Input(keyCode: .d, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .control, .shift])]))
+//        ])
+        
+        return [ruleArrows]
     }
     
     private func rulesShift() -> [Rule] {
@@ -98,26 +120,6 @@ class MarcosTests: XCTestCase {
         return [ruleBasic]
     }
     
-    private func rulesBoth() -> [Rule] {
-        /// Condition to check the "both" state.
-        let isRight = Condition(.are, variableName: mode.right, value: 1, "Check that Right Mode is active")
-        let isLeft = Condition(.are, variableName: mode.left,  value: 1, "Check that Left Mode is active")
-        /// Xcode condition
-        let xcode = Condition(.are, frontMostApps: (bundles: ["com.apple.dt.Xcode"], paths: nil), "Check for Xcode as frontmost app")
-        
-        /// Rule for navigation around the Xcode editors/areas.
-        let ruleNavigation = Rule("Xcode navigation", manipulators: [
-            Manipulator("Both+F -> ⌘+⌥+Ñ",   input: Input(keyCode: .f, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .option])])),
-            Manipulator("Both+S -> ⌘+⌥+⇧+Ñ", input: Input(keyCode: .s, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .option, .shift])])),
-            Manipulator("Both+E -> ⌘+⌃+Ñ",   input: Input(keyCode: .e, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .control])])),
-            Manipulator("Both+D -> ⌘+⌃+⇧+Ñ", input: Input(keyCode: .d, mandatory: .none, optional: .none), conditions: [isRight, isLeft, xcode], outputs: Triggers(press: [Output(keyCode: .semicolon, modifiers: [.command, .control, .shift])]))
-        ])
-        
-        ///
-        
-        return [ruleNavigation]
-    }
-    
     private func rulesMouse() -> [Rule] {
         /// Condition to detect the SwiftPoint mouse.
         let isMouse = Condition(.are, deviceIdentifiers: [(8526, 5, "SwiftPoint mouse")])
@@ -128,6 +130,20 @@ class MarcosTests: XCTestCase {
             Manipulator("Button4 -> ⌃+⇧+Tab", input: Input(button: .button4), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .tab, modifiers: [.control, .shift])]))
         ])
         
-        return [ruleTabs]
+        /// Rules for Mission Control.
+        let ruleMissionControl = Rule("SwiftPoint (mission control)", manipulators: [
+            Manipulator("Button8 -> ⌃+←", input: Input(button: .button8), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .left, modifiers: [.control])])),
+            Manipulator("Button9 -> ⌃+→", input: Input(button: .button9), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .right, modifiers: [.control])])),
+            Manipulator("Button10 -> ⌃+↓", input: Input(button: .button10), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .down, modifiers: [.control])])),
+            Manipulator("Button11 -> ⌃+↑", input: Input(button: .button11), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .up, modifiers: [.control])]))
+        ])
+        
+        /// Rules for miscellanea services.
+        let ruleMisc = Rule("SwiftPoint (misc)", manipulators: [
+            Manipulator("Button12 -> ⌘+⇧+4", input: Input(button: .button12), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .four, modifiers: [.command, .shift])])),
+            Manipulator("Button13 -> ⌘+⌥+8", input: Input(button: .button13), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .eight, modifiers: [.command, .option])])),
+        ])
+        
+        return [ruleTabs, ruleMissionControl, ruleMisc]
     }
 }
