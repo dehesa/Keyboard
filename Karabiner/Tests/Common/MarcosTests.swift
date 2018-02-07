@@ -56,7 +56,33 @@ class MarcosTests: XCTestCase {
             })
         }( [(Keyboard.Key.one,Keyboard.Key.f1), (.two,.f2), (.three,.f3), (.four,.f4), (.five,.f5), (.six,.f6), (.seven,.f7), (.eight,.f8), (.nine,.f9), (.zero,.f10), (.hyphen,.f11), (.equal,.f12), (.deleteBack,.f13)] )
         
-        return [ruleBasic, ruleArrows, ruleDelete, ruleTabs, ruleFn]
+        /// Rules for Spectacle (with modified keyboard shortcuts).
+        let ruleSpectacle = Rule("Left mode (spectacle)", manipulators: [
+            Manipulator("\(mode.left)+S -> Center",      input: Input(keyCode: .s, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .s, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+F -> Full screnn", input: Input(keyCode: .f, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .f, modifiers: [.control, .option, .shift, .command])])),
+            
+            Manipulator("\(mode.left)+A -> Left half",   input: Input(keyCode: .a, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .a, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+D -> Right half",  input: Input(keyCode: .d, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .d, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+W -> Top half",    input: Input(keyCode: .w, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .w, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+X -> Bottom half", input: Input(keyCode: .x, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .x, modifiers: [.control, .option, .shift, .command])])),
+            
+            Manipulator("\(mode.left)+Q -> Upper left",  input: Input(keyCode: .q, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .c, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+E -> Upper right", input: Input(keyCode: .e, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .e, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+Z -> Lower left",  input: Input(keyCode: .z, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .z, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+C -> Lower right", input: Input(keyCode: .c, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .b, modifiers: [.control, .option, .shift, .command])])),
+            
+            Manipulator("\(mode.left)+R -> Make larger",  input: Input(keyCode: .r, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .m, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+V -> Make smaller", input: Input(keyCode: .v, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .n, modifiers: [.control, .option, .shift, .command])])),
+            
+            Manipulator("\(mode.left)+⇧+S -> Mission Control",     input: Input(keyCode: .s, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .i, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+F -> Full screnn (Display)", input: Input(keyCode: .f, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .f, modifiers: [.control, .command])])),
+            Manipulator("\(mode.left)+⇧+W -> Next display",        input: Input(keyCode: .w, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .r, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⇧+X -> Previous display",    input: Input(keyCode: .x, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .v, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⇧+A -> Move lef a space",    input: Input(keyCode: .a, mandatory: .modifiers([.option]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .u, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⇧+D -> Move right a space",  input: Input(keyCode: .d, mandatory: .modifiers([.option]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .o, modifiers: [.control, .option, .shift, .command])]))
+        ])
+        
+        return [ruleBasic, ruleArrows, ruleDelete, ruleTabs, ruleFn, ruleSpectacle]
     }
     
     private func rulesRight() -> [Rule] {
@@ -122,28 +148,35 @@ class MarcosTests: XCTestCase {
     
     private func rulesMouse() -> [Rule] {
         /// Condition to detect the SwiftPoint mouse.
-        let isMouse = Condition(.are, deviceIdentifiers: [(8526, 5, "SwiftPoint mouse")])
+        let modeCondition = [ Condition(.are, deviceIdentifiers: [(8526, 5, "SwiftPoint mouse")]) ]
         
         /// Rule for managing "tabs" on applications.
         let ruleTabs = Rule("SwiftPoint (tab switching)", manipulators: [
-            Manipulator("Button5 -> ⌃+Tab", input: Input(button: .button5), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .tab, modifiers: [.control])])),
-            Manipulator("Button4 -> ⌃+⇧+Tab", input: Input(button: .button4), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .tab, modifiers: [.control, .shift])]))
+            Manipulator("Button5 -> ⌃+Tab", input: Input(button: .button5), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .tab, modifiers: [.control])])),
+            Manipulator("Button4 -> ⌃+⇧+Tab", input: Input(button: .button4), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .tab, modifiers: [.control, .shift])]))
         ])
         
-        /// Rules for Mission Control.
+        /// Rule for close/quit apps.
+        let ruleQuit = Rule("SwiftPoint (quit)", manipulators: [
+            Manipulator("Button6 -> ⌘+W", input: Input(button: .button6), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .w, modifiers: [.command])])),
+            Manipulator("Button7 -> ⌘+Q", input: Input(button: .button7), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .q, modifiers: [.command])]))
+        ])
+        
+        /// Rule for Mission Control -> Spectacle (modified shortcuts).
         let ruleMissionControl = Rule("SwiftPoint (mission control)", manipulators: [
-            Manipulator("Button8 -> ⌃+←", input: Input(button: .button8), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .left, modifiers: [.control])])),
-            Manipulator("Button9 -> ⌃+→", input: Input(button: .button9), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .right, modifiers: [.control])])),
-            Manipulator("Button10 -> ⌃+↓", input: Input(button: .button10), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .down, modifiers: [.control])])),
-            Manipulator("Button11 -> ⌃+↑", input: Input(button: .button11), conditions: [isMouse], outputs: Triggers(press: [Output(keyCode: .up, modifiers: [.control])]))
+            Manipulator("Button8 -> ⌘+⌃+⌥+⇧+U", input: Input(button: .button8), conditions: modeCondition,  outputs: Triggers(press: [Output(keyCode: .u, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("Button9 -> ⌘+⌃+⌥+⇧+O", input: Input(button: .button9), conditions: modeCondition,  outputs: Triggers(press: [Output(keyCode: .o, modifiers: [.control, .option, .shift, .command])])),
+
+            Manipulator("Button11 -> ⌘+⌃+⌥+⇧+I", input: Input(button: .button11), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .i, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("Button10 -> ESC", input: Input(button: .button10), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .escape)]))
         ])
         
         /// Rules for miscellanea services.
         let ruleMisc = Rule("SwiftPoint (misc)", manipulators: [
-            Manipulator("Button12 -> ⌘+⇧+4", input: Input(button: .button12), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .four, modifiers: [.command, .shift])])),
-            Manipulator("Button13 -> ⌘+⌥+8", input: Input(button: .button13), conditions: [isMouse],  outputs: Triggers(press: [Output(keyCode: .eight, modifiers: [.command, .option])])),
+            Manipulator("Button12 -> ⌘+⇧+4", input: Input(button: .button12), conditions: modeCondition,  outputs: Triggers(press: [Output(keyCode: .four, modifiers: [.command, .shift])])),
+            Manipulator("Button13 -> ⌘+⌥+8", input: Input(button: .button13), conditions: modeCondition,  outputs: Triggers(press: [Output(keyCode: .eight, modifiers: [.command, .option])])),
         ])
         
-        return [ruleTabs, ruleMissionControl, ruleMisc]
+        return [ruleTabs, ruleQuit, ruleMissionControl, ruleMisc]
     }
 }
