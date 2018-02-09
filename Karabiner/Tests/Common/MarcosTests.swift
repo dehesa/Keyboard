@@ -5,6 +5,7 @@ class MarcosTests: XCTestCase {
     /// Modes names
     let mode: (left: String, right: String, shift: String) = ("mode_left", "mode_right", "mode_shift")
 
+    /// Test executing all rules used by [Marcos](https://github.com/dehesa).
     func testMarcos() {
         let rules = [rulesLeft(), rulesRight(), rulesBoth(), rulesShift(), rulesMouse()].flatMap { $0 }
         let file = File("Marcos basics", rules: rules)
@@ -20,7 +21,7 @@ class MarcosTests: XCTestCase {
     /// - returns The rule identifying the "Left" mode and all other rules associated exclusively with it.
     private func rulesLeft() -> [Rule] {
         /// Rule that triggers the left mode.
-        let ruleBasic = Rule("Left mode", manipulators: [
+        let ruleTrigger = Rule("Left mode", manipulators: [
             Manipulator("Caps -> \(mode.left)", input: Input(keyCode: .caps, optional: .any), outputs: Triggers(press: [Output(variable: mode.left, value: 1)], release: [Output(variable: mode.left, value: 0)]) )
         ])
         
@@ -28,7 +29,7 @@ class MarcosTests: XCTestCase {
         let modeCondition = [ Condition(.are, variableName: mode.left,  value: 1, "Check that Left Mode is active"),
                               Condition(.are, variableName: mode.right, value: 0, "Check that Right Mode is inactive") ]
         
-        /// Handle the arrow keys.
+        /// Rule to handle the arrow keys.
         let ruleArrows = Rule("Left mode (arrows)", manipulators: [
             Manipulator("\(mode.left)+J -> ←", input: Input(keyCode: .j, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .left)])),
             Manipulator("\(mode.left)+I -> ↑", input: Input(keyCode: .i, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .up)])),
@@ -36,7 +37,7 @@ class MarcosTests: XCTestCase {
             Manipulator("\(mode.left)+L -> →", input: Input(keyCode: .l, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .right)]))
         ])
         
-        /// Handle Delete and Enter
+        /// Rule to handle Delete and Enter.
         let ruleDelete = Rule("Left mode (delete, enter, escape)", manipulators: [
             Manipulator("\(mode.left)+Space", input: Input(keyCode: .space,     optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .enter)])),
             Manipulator("\(mode.left)+Ñ",     input: Input(keyCode: .semicolon, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .deleteBack)])),
@@ -44,12 +45,12 @@ class MarcosTests: XCTestCase {
             Manipulator("\(mode.left)+H",     input: Input(keyCode: .h,         optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .escape)]))
         ])
         
-        /// Tab switching
+        /// Rule to handle tab switching.
         let ruleTabs = Rule("Left mode (tab switching)", manipulators: [
             Manipulator("\(mode.left)+Tab", input: Input(keyCode: .tab, optional: .modifiers([.shift, .option, .command, .fn])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .tab, modifiers: [.control])]))
         ])
         
-        /// Numbers for Function keys
+        /// Rule to handle f# keys.
         let ruleFn = { (pairs) -> Rule in
             Rule("Left mode (F#)", manipulators: pairs.map { (i, o) in
                 Manipulator("\(mode.left)+\(i.rawValue) -> \(o.rawValue)", input: Input(keyCode: i, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: o)]))
@@ -74,20 +75,24 @@ class MarcosTests: XCTestCase {
             Manipulator("\(mode.left)+R -> Make larger",  input: Input(keyCode: .r, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .m, modifiers: [.control, .option, .shift, .command])])),
             Manipulator("\(mode.left)+V -> Make smaller", input: Input(keyCode: .v, optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .n, modifiers: [.control, .option, .shift, .command])])),
             
-            Manipulator("\(mode.left)+⇧+S -> Mission Control",     input: Input(keyCode: .s, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .i, modifiers: [.control, .option, .shift, .command])])),
-            Manipulator("\(mode.left)+F -> Full screnn (Display)", input: Input(keyCode: .f, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .f, modifiers: [.control, .command])])),
-            Manipulator("\(mode.left)+⇧+W -> Next display",        input: Input(keyCode: .w, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .r, modifiers: [.control, .option, .shift, .command])])),
-            Manipulator("\(mode.left)+⇧+X -> Previous display",    input: Input(keyCode: .x, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .v, modifiers: [.control, .option, .shift, .command])])),
-            Manipulator("\(mode.left)+⇧+A -> Move lef a space",    input: Input(keyCode: .a, mandatory: .modifiers([.option]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .u, modifiers: [.control, .option, .shift, .command])])),
-            Manipulator("\(mode.left)+⇧+D -> Move right a space",  input: Input(keyCode: .d, mandatory: .modifiers([.option]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .o, modifiers: [.control, .option, .shift, .command])]))
+            Manipulator("\(mode.left)+⌘+S -> Mission Control",       input: Input(keyCode: .s, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .i, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⌘+F -> Full screnn (Display)", input: Input(keyCode: .f, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .f, modifiers: [.control, .command])])),
+            Manipulator("\(mode.left)+⌘+D -> Next display",          input: Input(keyCode: .d, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .r, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⌘+A -> Previous display",      input: Input(keyCode: .a, mandatory: .modifiers([.command]), optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .v, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⌥+D -> Move right a space",    input: Input(keyCode: .d, mandatory: .modifiers([.option]),  optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .o, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⌥+A -> Move lef a space",      input: Input(keyCode: .a, mandatory: .modifiers([.option]),  optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .u, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⌥+W -> Make window larger",    input: Input(keyCode: .w, mandatory: .modifiers([.option]),  optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .m, modifiers: [.control, .option, .shift, .command])])),
+            Manipulator("\(mode.left)+⌥+X -> Make window smaller",   input: Input(keyCode: .x, mandatory: .modifiers([.option]),  optional: .modifiers([.caps])), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .n, modifiers: [.control, .option, .shift, .command])]))
         ])
         
-        return [ruleBasic, ruleArrows, ruleDelete, ruleTabs, ruleFn, ruleSpectacle]
+        return [ruleTrigger, ruleArrows, ruleDelete, ruleTabs, ruleFn, ruleSpectacle]
     }
     
+    /// Rules that are triggered once the "Right" mode is active (a.k.a. The "Quote" key is pressed).
+    /// - returns The rule identifying the "Right" mode and all other rules associated exclusively with it.
     private func rulesRight() -> [Rule] {
         /// Rule that triggers the right mode.
-        let ruleBasic = Rule("Right mode", manipulators: [
+        let ruleTrigger = Rule("Right mode", manipulators: [
             Manipulator("Quote -> \(mode.right)", input: Input(keyCode: .quote, optional: .any), outputs: Triggers(press: [Output(variable: mode.right, value: 1)], pressAlone: [Output(keyCode: .quote)], release: [Output(variable: mode.right, value: 0)]) )
         ])
         
@@ -104,9 +109,19 @@ class MarcosTests: XCTestCase {
             (.q,.pad5), (.w,.pad6), (.e,.pad7), (.r,.pad8), (.t,.pad9),
             (.z,.padPeriod), (.accentGrave,.padSlash), (.x,.padPlus), (.c,.padHyphen), (.v,.padAsterisk), (.b,.padEqual)] )
         
-        return [ruleBasic, ruleKeyPad]
+        /// Rule to handle Delete and Enter.
+        let ruleDelete = Rule("Right mode (delete, enter, escape)", manipulators: [
+            Manipulator("\(mode.left)+Space", input: Input(keyCode: .space,     optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .enter)])),
+            Manipulator("\(mode.left)+Ñ",     input: Input(keyCode: .semicolon, optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .deleteBack)])),
+            Manipulator("\(mode.left)+Slash", input: Input(keyCode: .slash,     optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .deleteForward)])),
+            Manipulator("\(mode.left)+H",     input: Input(keyCode: .h,         optional: .any), conditions: modeCondition, outputs: Triggers(press: [Output(keyCode: .escape)]))
+        ])
+        
+        return [ruleTrigger, ruleKeyPad, ruleDelete]
     }
     
+    /// Rules that are triggered once the "Left" and "Right" mode are active (a.k.a. The "Caps" and "Quote" keys are pressed).
+    /// - returns The rule identifying the "Both" mode and all other rules associated exclusively with it.
     private func rulesBoth() -> [Rule] {
         /// Condition to check the "both" state.
         let modeCondition = [ Condition(.are, variableName: mode.left, value: 1, "Check that Left Mode is active"),
@@ -114,7 +129,7 @@ class MarcosTests: XCTestCase {
         
         /// Handle leaps in arrow keys.
         let ruleArrows = Rule("Both mode (arrows)", manipulators: [
-            Manipulator("\(mode.left)+\(mode.right)+J -> 15+←", input: Input(keyCode: .j, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .left), count: 15))),
+            Manipulator("\(mode.left)+\(mode.right)+J -> 15+←", input: Input(keyCode: .j, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .left), count: 15))),   // TODO: This doesn't seem to work.
             Manipulator("\(mode.left)+\(mode.right)+I -> 8+↑",  input: Input(keyCode: .i, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .up), count: 8))),
             Manipulator("\(mode.left)+\(mode.right)+K -> 8+↓",  input: Input(keyCode: .k, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .down), count: 8))),
             Manipulator("\(mode.left)+\(mode.right)+L -> 15+→", input: Input(keyCode: .l, optional: .any), conditions: modeCondition, outputs: Triggers(press: Array(repeating: Output(keyCode: .right), count: 15)))
@@ -134,6 +149,7 @@ class MarcosTests: XCTestCase {
         return [ruleArrows]
     }
     
+    /// Rules triggered once the left and right shift are pressed/released simultaneously.
     private func rulesShift() -> [Rule] {
         /// Rule for Shift, parentheses, and Caps.
         let ruleBasic = Rule("Shift mode", manipulators: [
@@ -146,6 +162,7 @@ class MarcosTests: XCTestCase {
         return [ruleBasic]
     }
     
+    /// Rules specialized for the [SwifPoint mouse](https://www.swiftpoint.com/limited-drop?mc_cid=67bf478fe4&mc_eid=77a9304e90).
     private func rulesMouse() -> [Rule] {
         /// Condition to detect the SwiftPoint mouse.
         let modeCondition = [ Condition(.are, deviceIdentifiers: [(8526, 5, "SwiftPoint mouse")]) ]
