@@ -2,10 +2,11 @@ import Foundation
 
 /// Namespace for JSON related functionality.
 public enum JSON {
+    /// Codable type used for JSON values, which you don't know what type are beforehand.
     public struct UnknownValue: Codable {
         public let content: Encodable?
         
-        public init(_ value: Encodable) {
+        public init(_ value: Encodable?) {
             self.content = value
         }
     }
