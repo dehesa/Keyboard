@@ -5,7 +5,7 @@ public enum Keyboard {
     /// Enumeration of all keyboard keys (identified by their names).
     /// The modifier keys are not included.
     /// - notes: For more keys, check: https://github.com/tekezo/Karabiner-Elements/issues/925
-    public enum Key: String, Codable {
+    public enum Key: String, Hashable, Codable {
         // Keys by keyboard rows
         case accentGrave="grave_accent_and_tilde", one="1", two="2", three="3", four="4", five="5", six="6", seven="7", eight="8", nine="9", zero="0", hyphen="hyphen", equal="equal_sign", deleteBack="delete_or_backspace", deleteForward="delete_forward"
         case escape, tab, q, w, e, r, t, y, u, i, o, p, bracketOpen="open_bracket", bracketClose="close_bracket"
@@ -35,7 +35,7 @@ public enum Keyboard {
     }
     
     /// List of all keyboard modifier keys.
-    public enum Modifier: String, Codable {
+    public enum Modifier: String, Hashable, Codable {
         case caps = "caps_lock"
         case shift, shiftL = "left_shift", shiftR = "right_shift"
         case control, controlL = "left_control", controlR = "right_control"

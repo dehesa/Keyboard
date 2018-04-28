@@ -1,229 +1,156 @@
 import Foundation
 
-/// The input state received.
-///
-/// This refers to which key code and modifiers are being pressed right now.
-/// The existance (or not) of modifiers, affect the input on the following ways:
-/// - when no modifiers are defined, events are recognized only when the targeted keyCode/button/etc. is pressed, but any modifier is not.
-/// - when there are only mandatory modifiers (but no optionals), events are recognized only when the targeted keyCode/button/etc. is pressed and the specified modifier too. If other modifiers are presed, the event is not recognized.
-/// - when there are only optional modifiers (but no mandatory), events are recognized even when the optinal modifiers are pressed (or not).
-public struct Input: Codable {
-    /// The type of input state received from the keyboard.
-    public let type: Kind
-    /// List of modifiers applied to this input (whether required or optional).
-    public let modifiers: Modifiers
-    
-    /// Designated initializer
-    public init(_ type: Kind, modifiers: Modifiers) {
-        (self.type, self.modifiers) = (type, modifiers)
-    }
-    
-    /// Designated initializer, where only the type of input is required.
-    /// - parameter type: The type of input detected.
-    /// - parameter mandatory: Required modifiers for the input to be detected.
-    /// - parameter optional:
-    public init(_ type: Kind, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-        self.type = type
-        self.modifiers = Modifiers(mandatory: mandatory, optional: optional)
-    }
-    
-    public init(keyCode code: Keyboard.Key, mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-        self.init(.keyCode(code), mandatory, optional: optional)
-    }
-    
-    public init(button: Mouse.Button, mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-        self.init(.button(button), mandatory, optional: optional)
-    }
-    
-    public init(consumerKeyCode code: String, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-        self.init(.consumerKeyCode(ConsumerKeyCode(code)), mandatory, optional: optional)
-    }
-    
-    public init(any input: Input.Kind.`Any`, _ mandatory: Modifiers.Filter = .none, optional: Modifiers.Filter = .none) {
-        self.init(.any(input), mandatory, optional: optional)
-    }
-    
-    /// Type of inputs expected from the keyboard.
-    ///
-    /// Only one can be active at a time.
-    public enum Kind {
-        /// A key press (with its associated key code).
-        case keyCode(Keyboard.Key)
-        /// A mouse button.
-        case button(Mouse.Button)
-        /// A customer specific key code.
-        case consumerKeyCode(ConsumerKeyCode)
-        /// Either any key press, or any button click, or any custom key press.
-        case any(Input.Kind.`Any`)
-        
-        /// Convey the idea of any key press, mouse click, or customer key code.
-        public enum `Any`: String, Codable {
-            case key="key_code", button="pointing_button", custom="consumer_key_code"
-        }
-    }
-    
-    /// Consumer key code wrapper.
-    /// - note: A structure is defined just to hold a string, so the string can be validated.
-    public struct ConsumerKeyCode: Codable {
-        /// A custom consumer key code.
-        public let keyCode: String
-        
-        /// Designated initializer
-        public init(_ keyCode: String) {
-            guard !keyCode.isEmpty else { fatalError("The input's consumer key code cannot be empty.") }
-            self.keyCode = keyCode
-        }
-        
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            self.init(try container.decode(String.self))
-        }
-        
-        public func encode(to encoder: Encoder) throws {
-            var container = encoder.singleValueContainer()
-            try container.encode(keyCode)
-        }
-    }
-    
-    /// State of modifiers.
-    public struct Modifiers: Codable {
-        /// The modifiers that must be there for the input to match.
-        public let mandatory: Filter
-        /// The modifiers that can be there and it will not affect the input match.
-        public let optional: Filter
-        
-        public init(mandatory: Filter = .none, optional: Filter = .none) {
-            self.mandatory = mandatory.qualify()
-            self.optional = optional.qualify()
-        }
-        
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            self.mandatory = try container.decodeIfPresent(Filter.self, forKey: .mandatory) ?? .none
-            self.optional = try container.decodeIfPresent(Filter.self, forKey: .optional) ?? .none
-        }
-        
-        public func encode(to encoder: Encoder) throws {
-            if case .none = self.mandatory, case .none = self.optional {
-                var container = encoder.singleValueContainer()
-                return try container.encodeNil()
-            }
-            
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            if self.mandatory != .none {
-                try container.encode(self.mandatory, forKey: .mandatory)
-            }
-            
-            if self.optional != .none {
-                try container.encode(self.optional, forKey: .optional)
-            }
-        }
+public protocol InputProtocol: Codable {
+    var modifiers: Input.Modifiers { get }
+}
 
+public enum Input {
+    public struct Key: InputProtocol {
+        public let code: Keyboard.Key
+        public let modifiers: Input.Modifiers
+        
         private enum CodingKeys: String, CodingKey {
-            case mandatory, optional
+            case code = "key_code", modifiers
+        }
+    }
+    
+    public struct ConsumerKey: InputProtocol {
+        public let code: String
+        public let modifiers: Input.Modifiers
+        
+        private enum CodingKeys: String, CodingKey {
+            case code = "consumer_key_code", modifiers
+        }
+    }
+    
+    public struct Button: InputProtocol {
+        public let code: Mouse.Button
+        public let modifiers: Input.Modifiers
+        
+        private enum CodingKeys: String, CodingKey {
+            case code = "pointing_button", modifiers
+        }
+    }
+    
+    public struct `Any`: InputProtocol {
+        public let `type`: Kind
+        public let modifiers: Input.Modifiers
+        
+        public enum Kind: String, Codable {
+            case keyCode = "key_code"
+            case consumerKeyCode = "consumer_key_code"
+            case button = "pointing_button"
         }
         
-        /// It lets the user select the quantity of modifiers: whether none, any, or a specific amount of them.
-        public enum Filter: Codable, Equatable, ExpressibleByNilLiteral {
-            /// No modifier shall be applied.
-            case none
-            /// The following exact modifiers need to be targeted.
-            case modifiers(Set<Keyboard.Modifier>)
-            /// Any modifier shall be targeted.
-            case any
+        private enum CodingKeys: String, CodingKey {
+            case `type` = "any", modifiers
+        }
+    }
+}
+
+extension Input {
+    public struct Modifiers: Codable {
+        public var mandatory: List = .none
+        public var optional: List = .none
+        
+        public enum List: Codable, ExpressibleByNilLiteral {
+            case none, any
+            case only(Set<Keyboard.Modifier>)
             
             public init(nilLiteral: ()) {
                 self = .none
             }
             
             public init(from decoder: Decoder) throws {
-                let container = try decoder.singleValueContainer()
-                let names = try container.decode([String].self)
+                var container = try decoder.unkeyedContainer()
+                var codes: [String] = []
                 
-                guard !names.contains(CodingKeys.any.rawValue) else {
-                    self = .any; return
+                while !container.isAtEnd {
+                    codes.append(try container.decode(String.self))
                 }
                 
-                let modifiers = try container.decode(Set<Keyboard.Modifier>.self)
-                self = (modifiers.isEmpty) ? .none : .modifiers(modifiers)
+                guard !codes.isEmpty else { self = .none; return }
+                guard !codes.contains(where: { $0.lowercased() == CodingKeys.any.rawValue }) else { self = .any; return }
+                
+                self = .only(Set(try codes.map { (string) -> Keyboard.Modifier in
+                    guard let element = Keyboard.Modifier(rawValue: string) else {
+                        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Modifier keyCode \"\(string)\" couldn't be identified.")
+                    }
+                    return element
+                }))
             }
             
             public func encode(to encoder: Encoder) throws {
                 switch self {
                 case .none:
-                    var container = encoder.singleValueContainer()
-                    try container.encodeNil()
+                    return
                 case .any:
                     var container = encoder.unkeyedContainer()
                     try container.encode(CodingKeys.any.rawValue)
-                case .modifiers(let modifiers):
+                case .only(let codes):
+                    guard !codes.isEmpty else { return }
+                    
                     var container = encoder.unkeyedContainer()
-                    try container.encode(contentsOf: modifiers)
+                    for code in codes {
+                        try container.encode(code)
+                    }
                 }
             }
             
             private enum CodingKeys: String, CodingKey {
                 case any
             }
-            
-            /// Checks whether the `.modifiers(set)` set is empty and if so, returns `.none`.
-            fileprivate func qualify() -> Filter {
-                guard case .modifiers(let modifiers) = self, modifiers.isEmpty else { return self }
-                return .none
-            }
-            
-            public static func == (lhs: Filter, rhs: Filter) -> Bool {
-                switch (lhs, rhs) {
-                case (.none, .none), (.any, .any): return true
-                case (.modifiers(let left), .modifiers(let right)): return left == right
-                default: return false
-                }
-            }
         }
     }
 }
 
-public extension Input {
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        // Figure out the type of input.
-        let type: Kind
-        if let keyCode = try container.decodeIfPresent(Keyboard.Key.self, forKey: .keyCode) {
-            type = .keyCode(keyCode)
-        } else if let button = try container.decodeIfPresent(Mouse.Button.self, forKey: .button) {
-            type = .button(button)
-        } else if let keyCode = try container.decodeIfPresent(ConsumerKeyCode.self, forKey: .customCode) {
-            type = .consumerKeyCode(keyCode)
-        } else if let either = try container.decodeIfPresent(Kind.`Any`.self, forKey: .any) {
-            type = .any(either)
-        } else {
-            let context = DecodingError.Context(codingPath: container.codingPath, debugDescription: "Impossible to figure out what input is expected (e.g. keyCode? pointing button?...)")
-            throw DecodingError.dataCorrupted(context)
-        }
-        
-        let modifiers = try container.decodeIfPresent(Modifiers.self, forKey: .modifiers)
-        self.init(type, modifiers: modifiers ?? Modifiers())
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        
-        switch self.type {
-        case .keyCode(let keyCode):   try container.encode(keyCode, forKey: .keyCode)
-        case .button(let button): try container.encode(button, forKey: .button)
-        case .consumerKeyCode(let custom): try container.encode(custom, forKey: .customCode)
-        case .any(let either):    try container.encode(either.rawValue, forKey: .any)
-        }
-        
-        if case .none = self.modifiers.mandatory, case .none = self.modifiers.optional { return }
-        try container.encode(self.modifiers, forKey: .modifiers)
-    }
-    
-    private enum CodingKeys: String, CodingKey {
-        case keyCode = "key_code"
-        case button = "pointing_button"
-        case customCode = "consumer_key_code"
-        case any = "any"
-        case modifiers
-    }
-}
+//public struct Modifiers: Codable {
+//    public var mandatory: [Keyboard.Modifier] = []
+//    public var optional: [Keyboard.Modifier] = []
+//
+//    public var isEmpty: Bool {
+//        return mandatory.isEmpty && optional.isEmpty
+//    }
+//}
+
+//public struct Modifiers: Codable {
+//    private let pressed: [Keyboard.Modifier:Bool]
+//
+//    /// If `true`, the input will only be matched when there is no modifier keys pressed.
+//    public var isEmpty: Bool {
+//        return !pressed.isEmpty
+//    }
+//
+//    public var mandatory: [Keyboard.Modifier] {
+//        return self.pressed.compactMap { return $0.value ? $0.key : nil }
+//    }
+//
+//    public var optional: [Keyboard.Modifier] {
+//        return self.pressed.compactMap { return !$0.value ? $0.key : nil }
+//    }
+//
+//    public init(from decoder: Decoder) throws {
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.pressed = Dictionary([
+//            try container.decodeIfPresent([Keyboard.Modifier].self, forKey: .optional)?.map { ($0, false) },
+//            try container.decodeIfPresent([Keyboard.Modifier].self, forKey: .mandatory)?.map { ($0, true) }
+//            ].compactMap { $0 }.flatMap { $0 }) { $0 || $1 }
+//    }
+//
+//    public func encode(to encoder: Encoder) throws {
+//        guard !self.isEmpty else { return }
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//
+//        let (mandatory, optional) = (self.mandatory, self.optional)
+//        if !mandatory.isEmpty {
+//            try container.encode(mandatory, forKey: .mandatory)
+//        }
+//        if !optional.isEmpty {
+//            try container.encode(optional, forKey: .optional)
+//        }
+//    }
+//
+//    private enum CodingKeys: String, CodingKey {
+//        case mandatory, optional
+//    }
+//}
