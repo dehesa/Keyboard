@@ -62,7 +62,7 @@ extension Input {
 extension Input.Modifiers {
     public enum List: Codable, ExpressibleByNilLiteral, Equatable {
         case none, any
-        case only(Set<Keyboard.Modifier>)
+        case only(LadenSet<Keyboard.Modifier>)
         
         public init(nilLiteral: ()) {
             self = .none
@@ -70,21 +70,27 @@ extension Input.Modifiers {
         
         public init(from decoder: Decoder) throws {
             var container = try decoder.unkeyedContainer()
-            var codes: [String] = []
+            var codes = Set<String>()
             
             while !container.isAtEnd {
-                codes.append(try container.decode(String.self))
+                codes.insert(try container.decode(String.self))
             }
             
             guard !codes.isEmpty else { self = .none; return }
             guard !codes.contains(where: { $0.lowercased() == CodingKeys.any.rawValue }) else { self = .any; return }
             
-            self = .only(Set(try codes.map { (string) -> Keyboard.Modifier in
+            let modifiers = try codes.map { (string) -> Keyboard.Modifier in
                 guard let element = Keyboard.Modifier(rawValue: string) else {
                     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Modifier keyCode \"\(string)\" couldn't be identified.")
                 }
                 return element
-                }))
+            }
+            
+            if let result = LadenSet<Keyboard.Modifier>(modifiers) {
+                self = .only(result)
+            } else {
+                self = .none
+            }
         }
         
         public func encode(to encoder: Encoder) throws {

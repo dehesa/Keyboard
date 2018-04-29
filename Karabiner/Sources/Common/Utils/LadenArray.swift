@@ -1,4 +1,8 @@
+/// Array that cannot be empty. There will always be at least one element.
+///
+/// This structure is backed by a normal Swift library array.
 public struct LadenArray<Element>: ExpressibleByArrayLiteral {
+    /// Storage to back all elements.
     fileprivate var elements: [Element]
     
     public init(arrayLiteral elements: Element...) {
@@ -6,31 +10,40 @@ public struct LadenArray<Element>: ExpressibleByArrayLiteral {
         self.elements = elements
     }
     
+    /// Creates a non-empty array with the elements with the elements of the given array.
+    ///
+    /// If the given array is emtpy, `nil` is returned.
+    /// - parameter array: The elements to use as members of the new array.
     public init?(array: [Element]) {
         guard !array.isEmpty else { return nil }
         self.elements = array
     }
     
+    /// The number of elements in the array.
     public var count: Int {
         return self.elements.count
     }
     
+    /// The first element of the non-empty array.
     public var first: Element {
         return self.elements[0]
     }
     
+    /// The last element of the non-empty array.
     public var last: Element {
         return self.elements[self.elements.endIndex-1]
     }
     
-    public var isEmpty: Bool {
-        return false
-    }
-    
+    // Returns a non-empty array containing the results of mapping the given closure over the sequence’s elements.
+    /// - parameter transform: A mapping closure. transform accepts an element of this sequence as its parameter and returns a transformed value of the same or of a different type.
     public func map<T>(_ transform: (Element) throws -> T) rethrows -> LadenArray<T> {
         return LadenArray<T>(array: try self.elements.map(transform))!
     }
     
+    /// Returns a non-empty array containing the non-nil results of calling the given transformation with each element of this sequence.
+    ///
+    /// If the result is empty, `nil` is returned.
+    /// - parameter transform: A closure that accepts an element of this sequence as its argument and returns an optional value.
     public func compactMap<T>(_ transform: (Element) throws -> T?) rethrows -> LadenArray<T>? {
         return LadenArray<T>(array: try self.elements.compactMap(transform))
     }
@@ -66,10 +79,10 @@ extension LadenArray: BidirectionalCollection, Collection, MutableCollection, Ra
 }
 
 extension LadenArray {   // Simulation of many RangeReplaceableCollection.
-    public init?() {
-        return nil
-    }
-    
+    /// Create a new non-empty array from a finite sequence of items.
+    ///
+    /// If the sequence is empty, `nil` is returned.
+    /// - parameter sequence: The elements to use as members of the new array.
     public init?<S:Sequence>(_ sequence: S) where S.Iterator.Element == Element {
         self.init(array: Array<Element>(sequence))
     }
@@ -127,7 +140,6 @@ extension LadenArray {   // Simulation of many RangeReplaceableCollection.
     
     public mutating func removeLast(_ n: Int) throws {
         guard self.elements.count > n else { throw LadenArray.Error.insufficientLength }
-        self += Array<Element>()
         return self.elements.removeLast(n)
     }
     
