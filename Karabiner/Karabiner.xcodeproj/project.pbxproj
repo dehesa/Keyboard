@@ -96,6 +96,8 @@
 		8D67FB7E1FCE2579005E3D72 /* vimium.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54980D1FC8438100EAFA18 /* vimium.json */; };
 		8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BC1FC6DE6600F8882B /* Rule.swift */; };
 		8D6DF9BF1FC6DFE000F8882B /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */; };
+		8DB140F32095C33700A773B1 /* LadenArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB140F22095C33700A773B1 /* LadenArray.swift */; };
+		8DB140F52095E71600A773B1 /* LadenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB140F42095E71600A773B1 /* LadenSet.swift */; };
 		8DC034F61FCAD23E00B06895 /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC034F51FCAD23E00B06895 /* Mouse.swift */; };
 		8DD85BFB1FC639EF006FA9B1 /* Karabiner.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DD85BFA1FC639EF006FA9B1 /* Karabiner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DD85BFD1FC63B2B006FA9B1 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD85BFC1FC63B2B006FA9B1 /* File.swift */; };
@@ -214,6 +216,8 @@
 		8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarcosTests.swift; sourceTree = "<group>"; };
 		8D915DC31FC6642000C5FF38 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
 		8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTests.swift; sourceTree = "<group>"; };
+		8DB140F22095C33700A773B1 /* LadenArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LadenArray.swift; sourceTree = "<group>"; };
+		8DB140F42095E71600A773B1 /* LadenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LadenSet.swift; sourceTree = "<group>"; };
 		8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownJSON.swift; sourceTree = "<group>"; };
 		8DC034F51FCAD23E00B06895 /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
 		8DD85BE51FC63991006FA9B1 /* Karabiner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Karabiner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -384,6 +388,8 @@
 			isa = PBXGroup;
 			children = (
 				8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */,
+				8DB140F22095C33700A773B1 /* LadenArray.swift */,
+				8DB140F42095E71600A773B1 /* LadenSet.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -660,7 +666,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D6DF9BF1FC6DFE000F8882B /* Manipulator.swift in Sources */,
+				8DB140F52095E71600A773B1 /* LadenSet.swift in Sources */,
 				8DC034F61FCAD23E00B06895 /* Mouse.swift in Sources */,
+				8DB140F32095C33700A773B1 /* LadenArray.swift in Sources */,
 				8DE47DFE2094FC87001918D4 /* Input.swift in Sources */,
 				8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */,
 				8D5BE8501FC63B8500297968 /* Keyboard.swift in Sources */,
