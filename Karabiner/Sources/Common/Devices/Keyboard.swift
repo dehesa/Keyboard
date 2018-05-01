@@ -45,32 +45,32 @@ public enum Keyboard {
     }
 }
 
-internal extension Set where Element==Keyboard.Modifier {
-    /// Filter out similar elements if they are already in the set.
-    ///
-    /// For example, if `control` is specified, you can filter out left control and right control.
-    internal func filterSimilars() -> Set<Keyboard.Modifier> {
-        // If there is no elements or just one, return the set.
-        guard self.count > 1 else { return self }
-        
-        var result = self
-        
-        if result.contains(.shift) {
-            result.subtract([.shiftL, .shiftR])
-        }
-        
-        if result.contains(.control) {
-            result.subtract([.controlL, .controlR])
-        }
-        
-        if result.contains(.option) {
-            result.subtract([.optionL, .optionR])
-        }
-        
-        if result.contains(.command) {
-            result.subtract([.commandL, .commandR])
-        }
-        
-        return result
-    }
-}
+//internal extension Set where Element==Keyboard.Modifier {
+//    /// Filter out similar elements if they are already in the set.
+//    ///
+//    /// For example, if `control` is specified, you can filter out left control and right control.
+//    internal func filterSimilars() -> Set<Keyboard.Modifier> {
+//        // If there is no elements or just one, return the set.
+//        guard self.count > 1 else { return self }
+//
+//        var result = self
+//
+//        if result.contains(.shift) {
+//            result.subtract([.shiftL, .shiftR])
+//        }
+//
+//        if result.contains(.control) {
+//            result.subtract([.controlL, .controlR])
+//        }
+//
+//        if result.contains(.option) {
+//            result.subtract([.optionL, .optionR])
+//        }
+//
+//        if result.contains(.command) {
+//            result.subtract([.commandL, .commandR])
+//        }
+//
+//        return result
+//    }
+//}

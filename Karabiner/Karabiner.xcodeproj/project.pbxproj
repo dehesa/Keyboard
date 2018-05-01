@@ -7,93 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D1216B62097976B0057F222 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1216B52097976B0057F222 /* AnyEncodable.swift */; };
 		8D3462FC1FC778DA0022E2A3 /* Karabiner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DD85BE51FC63991006FA9B1 /* Karabiner.framework */; };
 		8D5BE8501FC63B8500297968 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BE84F1FC63B8500297968 /* Keyboard.swift */; };
-		8D67FB291FCE2579005E3D72 /* amethyst.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54983E1FC8438500EAFA18 /* amethyst.json */; };
-		8D67FB2A1FCE2579005E3D72 /* anti_rsi_app_switch.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498581FC8438800EAFA18 /* anti_rsi_app_switch.json */; };
-		8D67FB2B1FCE2579005E3D72 /* application_window_tab_switch_with_right_cmd_hjklsemiquote.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498561FC8438800EAFA18 /* application_window_tab_switch_with_right_cmd_hjklsemiquote.json */; };
-		8D67FB2C1FCE2579005E3D72 /* block_one_handed_combos.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54982A1FC8438300EAFA18 /* block_one_handed_combos.json */; };
-		8D67FB2D1FCE2579005E3D72 /* caps_and_return_to_ctrl.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54985E1FC8438800EAFA18 /* caps_and_return_to_ctrl.json */; };
-		8D67FB2E1FCE2579005E3D72 /* caps_lock_enhancement.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498401FC8438500EAFA18 /* caps_lock_enhancement.json */; };
-		8D67FB2F1FCE2579005E3D72 /* caps_lock_german.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54985A1FC8438800EAFA18 /* caps_lock_german.json */; };
-		8D67FB301FCE2579005E3D72 /* caps_lock.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54981A1FC8438100EAFA18 /* caps_lock.json */; };
-		8D67FB311FCE2579005E3D72 /* change_command_l.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498211FC8438200EAFA18 /* change_command_l.json */; };
-		8D67FB321FCE2579005E3D72 /* change_command_r.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498251FC8438200EAFA18 /* change_command_r.json */; };
-		8D67FB331FCE2579005E3D72 /* change_grave_accent_to_escape.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54985B1FC8438800EAFA18 /* change_grave_accent_to_escape.json */; };
-		8D67FB341FCE2579005E3D72 /* colemak_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498331FC8438400EAFA18 /* colemak_layout.json */; };
-		8D67FB351FCE2579005E3D72 /* command_arrows_to_ctrl_arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498161FC8438100EAFA18 /* command_arrows_to_ctrl_arrows.json */; };
-		8D67FB361FCE2579005E3D72 /* command_arrows_to_option_arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54982D1FC8438300EAFA18 /* command_arrows_to_option_arrows.json */; };
-		8D67FB371FCE2579005E3D72 /* command_esc_to_command_grave_accent.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498521FC8438700EAFA18 /* command_esc_to_command_grave_accent.json */; };
-		8D67FB381FCE2579005E3D72 /* command_q.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498131FC8438100EAFA18 /* command_q.json */; };
-		8D67FB391FCE2579005E3D72 /* control.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498601FC8438800EAFA18 /* control.json */; };
-		8D67FB3A1FCE2579005E3D72 /* ctrl_arrows_to_option_arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498481FC8438600EAFA18 /* ctrl_arrows_to_option_arrows.json */; };
-		8D67FB3B1FCE2579005E3D72 /* ctrl_command_fn_letter_specials.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498261FC8438200EAFA18 /* ctrl_command_fn_letter_specials.json */; };
-		8D67FB3C1FCE2579005E3D72 /* czech_pc_shortcuts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498421FC8438600EAFA18 /* czech_pc_shortcuts.json */; };
-		8D67FB3D1FCE2579005E3D72 /* delete.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498121FC8438100EAFA18 /* delete.json */; };
-		8D67FB3E1FCE2579005E3D72 /* diamond_cursor.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498461FC8438600EAFA18 /* diamond_cursor.json */; };
-		8D67FB3F1FCE2579005E3D72 /* dos_style.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498471FC8438600EAFA18 /* dos_style.json */; };
-		8D67FB401FCE2579005E3D72 /* dvorak_cmd_qwerty_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498341FC8438400EAFA18 /* dvorak_cmd_qwerty_layout.json */; };
-		8D67FB411FCE2579005E3D72 /* dvorak_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54982B1FC8438300EAFA18 /* dvorak_layout.json */; };
-		8D67FB421FCE2579005E3D72 /* emacs_key_bindings.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54981B1FC8438200EAFA18 /* emacs_key_bindings.json */; };
-		8D67FB431FCE2579005E3D72 /* escape.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54980F1FC8438100EAFA18 /* escape.json */; };
-		8D67FB441FCE2579005E3D72 /* example_device.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54980B1FC8438100EAFA18 /* example_device.json */; };
-		8D67FB451FCE2579005E3D72 /* example_input_source.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54982C1FC8438300EAFA18 /* example_input_source.json */; };
-		8D67FB461FCE2579005E3D72 /* example_keyboard_type.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54983D1FC8438500EAFA18 /* example_keyboard_type.json */; };
-		8D67FB471FCE2579005E3D72 /* example_select_input_source.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498491FC8438600EAFA18 /* example_select_input_source.json */; };
-		8D67FB481FCE2579005E3D72 /* exchange_command_backspace_and_option_backspace.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498101FC8438100EAFA18 /* exchange_command_backspace_and_option_backspace.json */; };
-		8D67FB491FCE2579005E3D72 /* exchange_command_tab_and_control_tab.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54981C1FC8438200EAFA18 /* exchange_command_tab_and_control_tab.json */; };
-		8D67FB4A1FCE2579005E3D72 /* exchange_hyphen_and_underscore.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54985C1FC8438800EAFA18 /* exchange_hyphen_and_underscore.json */; };
-		8D67FB4B1FCE2579005E3D72 /* exchange_numbers_and_symbols.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54981D1FC8438200EAFA18 /* exchange_numbers_and_symbols.json */; };
-		8D67FB4C1FCE2579005E3D72 /* exchange_semicolon_and_colon.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498231FC8438200EAFA18 /* exchange_semicolon_and_colon.json */; };
-		8D67FB4D1FCE2579005E3D72 /* exchange_underscore_and_backslash.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498371FC8438400EAFA18 /* exchange_underscore_and_backslash.json */; };
-		8D67FB4E1FCE2579005E3D72 /* fine_volume_control.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54983F1FC8438500EAFA18 /* fine_volume_control.json */; };
-		8D67FB4F1FCE2579005E3D72 /* fn_plus_numbers_to_function_keys.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498111FC8438100EAFA18 /* fn_plus_numbers_to_function_keys.json */; };
-		8D67FB501FCE2579005E3D72 /* fn_plus_plsemicolonquote_to_arrow_keys.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54984E1FC8438700EAFA18 /* fn_plus_plsemicolonquote_to_arrow_keys.json */; };
-		8D67FB511FCE2579005E3D72 /* german_pc_shortcuts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54981E1FC8438200EAFA18 /* german_pc_shortcuts.json */; };
-		8D67FB521FCE2579005E3D72 /* german_umlaut.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54984A1FC8438600EAFA18 /* german_umlaut.json */; };
-		8D67FB531FCE2579005E3D72 /* hhkb_mode.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54984D1FC8438700EAFA18 /* hhkb_mode.json */; };
-		8D67FB541FCE2579005E3D72 /* japanese.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54982E1FC8438300EAFA18 /* japanese.json */; };
-		8D67FB551FCE2579005E3D72 /* jis_to_ascii.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498571FC8438800EAFA18 /* jis_to_ascii.json */; };
-		8D67FB561FCE2579005E3D72 /* korean_pc.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498381FC8438400EAFA18 /* korean_pc.json */; };
-		8D67FB571FCE2579005E3D72 /* launch_apps.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498611FC8438900EAFA18 /* launch_apps.json */; };
-		8D67FB581FCE2579005E3D72 /* launch_new_Chrome_or_iTerm2_windows.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498361FC8438400EAFA18 /* launch_new_Chrome_or_iTerm2_windows.json */; };
-		8D67FB591FCE2579005E3D72 /* lshift_to_escape.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498241FC8438200EAFA18 /* lshift_to_escape.json */; };
-		8D67FB5A1FCE2579005E3D72 /* modifiers_to_f-keys.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54984F1FC8438700EAFA18 /* modifiers_to_f-keys.json */; };
-		8D67FB5B1FCE2579005E3D72 /* mu_mode.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498221FC8438200EAFA18 /* mu_mode.json */; };
-		8D67FB5C1FCE2579005E3D72 /* neo2.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54980C1FC8438100EAFA18 /* neo2.json */; };
-		8D67FB5D1FCE2579005E3D72 /* nonbreaking_space.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498311FC8438300EAFA18 /* nonbreaking_space.json */; };
-		8D67FB5E1FCE2579005E3D72 /* numeric_keypad.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498591FC8438800EAFA18 /* numeric_keypad.json */; };
-		8D67FB5F1FCE2579005E3D72 /* pc_shortcuts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54981F1FC8438200EAFA18 /* pc_shortcuts.json */; };
-		8D67FB601FCE2579005E3D72 /* personal_apm1467.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54983C1FC8438500EAFA18 /* personal_apm1467.json */; };
-		8D67FB611FCE2579005E3D72 /* personal_drazcmd.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54985D1FC8438800EAFA18 /* personal_drazcmd.json */; };
-		8D67FB621FCE2579005E3D72 /* personal_jeebak.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498301FC8438300EAFA18 /* personal_jeebak.json */; };
-		8D67FB631FCE2579005E3D72 /* personal_rubocoptero.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54984B1FC8438600EAFA18 /* personal_rubocoptero.json */; };
-		8D67FB641FCE2579005E3D72 /* personal_tekezo.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498511FC8438700EAFA18 /* personal_tekezo.json */; };
-		8D67FB651FCE2579005E3D72 /* personal_wgj.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54983B1FC8438500EAFA18 /* personal_wgj.json */; };
-		8D67FB661FCE2579005E3D72 /* personal_yqrashawn.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54984C1FC8438700EAFA18 /* personal_yqrashawn.json */; };
-		8D67FB671FCE2579005E3D72 /* pok3r-escape.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498271FC8438200EAFA18 /* pok3r-escape.json */; };
-		8D67FB681FCE2579005E3D72 /* pok3r-media.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498191FC8438100EAFA18 /* pok3r-media.json */; };
-		8D67FB691FCE2579005E3D72 /* programmer_dvorak_cmd_qwerty_layout.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498391FC8438500EAFA18 /* programmer_dvorak_cmd_qwerty_layout.json */; };
-		8D67FB6A1FCE2579005E3D72 /* remote-desktop.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498531FC8438700EAFA18 /* remote-desktop.json */; };
-		8D67FB6B1FCE2579005E3D72 /* russian.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54985F1FC8438800EAFA18 /* russian.json */; };
-		8D67FB6C1FCE2579005E3D72 /* safari_ignore_command_q.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498541FC8438700EAFA18 /* safari_ignore_command_q.json */; };
-		8D67FB6D1FCE2579005E3D72 /* safari.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498501FC8438700EAFA18 /* safari.json */; };
-		8D67FB6E1FCE2579005E3D72 /* shift.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498411FC8438600EAFA18 /* shift.json */; };
-		8D67FB6F1FCE2579005E3D72 /* space_cadet.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498321FC8438300EAFA18 /* space_cadet.json */; };
-		8D67FB701FCE2579005E3D72 /* spacebar_changes.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54980E1FC8438100EAFA18 /* spacebar_changes.json */; };
-		8D67FB711FCE2579005E3D72 /* spacebar.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498281FC8438200EAFA18 /* spacebar.json */; };
-		8D67FB721FCE2579005E3D72 /* spacefn.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498431FC8438600EAFA18 /* spacefn.json */; };
-		8D67FB731FCE2579005E3D72 /* swap_alt_cmd_in_autodesk_maya.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498441FC8438600EAFA18 /* swap_alt_cmd_in_autodesk_maya.json */; };
-		8D67FB741FCE2579005E3D72 /* swap_pound_and_hash.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498551FC8438700EAFA18 /* swap_pound_and_hash.json */; };
-		8D67FB751FCE2579005E3D72 /* swap_yen_and_backslash.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498141FC8438100EAFA18 /* swap_yen_and_backslash.json */; };
-		8D67FB761FCE2579005E3D72 /* swap-paren-and-sqbrackets.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498171FC8438100EAFA18 /* swap-paren-and-sqbrackets.json */; };
-		8D67FB771FCE2579005E3D72 /* terminal_navi.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498621FC8438900EAFA18 /* terminal_navi.json */; };
-		8D67FB781FCE2579005E3D72 /* tmux_prefix.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498201FC8438200EAFA18 /* tmux_prefix.json */; };
-		8D67FB791FCE2579005E3D72 /* touchcursor_mode.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498451FC8438600EAFA18 /* touchcursor_mode.json */; };
-		8D67FB7A1FCE2579005E3D72 /* typematrix_bepo_cut_copy_paste_fn_shortcuts.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54982F1FC8438300EAFA18 /* typematrix_bepo_cut_copy_paste_fn_shortcuts.json */; };
-		8D67FB7B1FCE2579005E3D72 /* vi_mode.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498151FC8438100EAFA18 /* vi_mode.json */; };
-		8D67FB7C1FCE2579005E3D72 /* vi_style_arrows.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D5498351FC8438400EAFA18 /* vi_style_arrows.json */; };
-		8D67FB7E1FCE2579005E3D72 /* vimium.json in Resources */ = {isa = PBXBuildFile; fileRef = 8D54980D1FC8438100EAFA18 /* vimium.json */; };
 		8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BC1FC6DE6600F8882B /* Rule.swift */; };
 		8D6DF9BF1FC6DFE000F8882B /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */; };
 		8DB140F32095C33700A773B1 /* LadenArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB140F22095C33700A773B1 /* LadenArray.swift */; };
@@ -102,6 +18,8 @@
 		8DD85BFB1FC639EF006FA9B1 /* Karabiner.h in Headers */ = {isa = PBXBuildFile; fileRef = 8DD85BFA1FC639EF006FA9B1 /* Karabiner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8DD85BFD1FC63B2B006FA9B1 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD85BFC1FC63B2B006FA9B1 /* File.swift */; };
 		8DE47DFE2094FC87001918D4 /* Input.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DE47DFD2094FC87001918D4 /* Input.swift */; };
+		8DF12B1220979F2D007D996B /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF12B1120979F2D007D996B /* AnyDecodable.swift */; };
+		8DF12B1420979FAB007D996B /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DF12B1320979FAB007D996B /* AnyCodable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,101 +33,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8D1216B52097976B0057F222 /* AnyEncodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
 		8D3462F71FC778DA0022E2A3 /* KarabinerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KarabinerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D3463051FC77BEE0022E2A3 /* macOS_Tests.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS_Tests.xcconfig; sourceTree = "<group>"; };
 		8D3463061FC77BEE0022E2A3 /* macOS_Tests.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = macOS_Tests.plist; sourceTree = "<group>"; };
-		8D54980B1FC8438100EAFA18 /* example_device.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = example_device.json; sourceTree = "<group>"; };
-		8D54980C1FC8438100EAFA18 /* neo2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = neo2.json; sourceTree = "<group>"; };
-		8D54980D1FC8438100EAFA18 /* vimium.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vimium.json; sourceTree = "<group>"; };
-		8D54980E1FC8438100EAFA18 /* spacebar_changes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = spacebar_changes.json; sourceTree = "<group>"; };
-		8D54980F1FC8438100EAFA18 /* escape.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = escape.json; sourceTree = "<group>"; };
-		8D5498101FC8438100EAFA18 /* exchange_command_backspace_and_option_backspace.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exchange_command_backspace_and_option_backspace.json; sourceTree = "<group>"; };
-		8D5498111FC8438100EAFA18 /* fn_plus_numbers_to_function_keys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fn_plus_numbers_to_function_keys.json; sourceTree = "<group>"; };
-		8D5498121FC8438100EAFA18 /* delete.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = delete.json; sourceTree = "<group>"; };
-		8D5498131FC8438100EAFA18 /* command_q.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = command_q.json; sourceTree = "<group>"; };
-		8D5498141FC8438100EAFA18 /* swap_yen_and_backslash.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = swap_yen_and_backslash.json; sourceTree = "<group>"; };
-		8D5498151FC8438100EAFA18 /* vi_mode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vi_mode.json; sourceTree = "<group>"; };
-		8D5498161FC8438100EAFA18 /* command_arrows_to_ctrl_arrows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = command_arrows_to_ctrl_arrows.json; sourceTree = "<group>"; };
-		8D5498171FC8438100EAFA18 /* swap-paren-and-sqbrackets.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "swap-paren-and-sqbrackets.json"; sourceTree = "<group>"; };
-		8D5498181FC8438100EAFA18 /* xcode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = xcode.json; sourceTree = "<group>"; };
-		8D5498191FC8438100EAFA18 /* pok3r-media.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "pok3r-media.json"; sourceTree = "<group>"; };
-		8D54981A1FC8438100EAFA18 /* caps_lock.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = caps_lock.json; sourceTree = "<group>"; };
-		8D54981B1FC8438200EAFA18 /* emacs_key_bindings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = emacs_key_bindings.json; sourceTree = "<group>"; };
-		8D54981C1FC8438200EAFA18 /* exchange_command_tab_and_control_tab.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exchange_command_tab_and_control_tab.json; sourceTree = "<group>"; };
-		8D54981D1FC8438200EAFA18 /* exchange_numbers_and_symbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exchange_numbers_and_symbols.json; sourceTree = "<group>"; };
-		8D54981E1FC8438200EAFA18 /* german_pc_shortcuts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = german_pc_shortcuts.json; sourceTree = "<group>"; };
-		8D54981F1FC8438200EAFA18 /* pc_shortcuts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = pc_shortcuts.json; sourceTree = "<group>"; };
-		8D5498201FC8438200EAFA18 /* tmux_prefix.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tmux_prefix.json; sourceTree = "<group>"; };
-		8D5498211FC8438200EAFA18 /* change_command_l.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = change_command_l.json; sourceTree = "<group>"; };
-		8D5498221FC8438200EAFA18 /* mu_mode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mu_mode.json; sourceTree = "<group>"; };
-		8D5498231FC8438200EAFA18 /* exchange_semicolon_and_colon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exchange_semicolon_and_colon.json; sourceTree = "<group>"; };
-		8D5498241FC8438200EAFA18 /* lshift_to_escape.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lshift_to_escape.json; sourceTree = "<group>"; };
-		8D5498251FC8438200EAFA18 /* change_command_r.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = change_command_r.json; sourceTree = "<group>"; };
-		8D5498261FC8438200EAFA18 /* ctrl_command_fn_letter_specials.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ctrl_command_fn_letter_specials.json; sourceTree = "<group>"; };
-		8D5498271FC8438200EAFA18 /* pok3r-escape.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "pok3r-escape.json"; sourceTree = "<group>"; };
-		8D5498281FC8438200EAFA18 /* spacebar.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = spacebar.json; sourceTree = "<group>"; };
-		8D5498291FC8438300EAFA18 /* vim_style_escape.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vim_style_escape.json; sourceTree = "<group>"; };
-		8D54982A1FC8438300EAFA18 /* block_one_handed_combos.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = block_one_handed_combos.json; sourceTree = "<group>"; };
-		8D54982B1FC8438300EAFA18 /* dvorak_layout.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dvorak_layout.json; sourceTree = "<group>"; };
-		8D54982C1FC8438300EAFA18 /* example_input_source.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = example_input_source.json; sourceTree = "<group>"; };
-		8D54982D1FC8438300EAFA18 /* command_arrows_to_option_arrows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = command_arrows_to_option_arrows.json; sourceTree = "<group>"; };
-		8D54982E1FC8438300EAFA18 /* japanese.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = japanese.json; sourceTree = "<group>"; };
-		8D54982F1FC8438300EAFA18 /* typematrix_bepo_cut_copy_paste_fn_shortcuts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = typematrix_bepo_cut_copy_paste_fn_shortcuts.json; sourceTree = "<group>"; };
-		8D5498301FC8438300EAFA18 /* personal_jeebak.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_jeebak.json; sourceTree = "<group>"; };
-		8D5498311FC8438300EAFA18 /* nonbreaking_space.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = nonbreaking_space.json; sourceTree = "<group>"; };
-		8D5498321FC8438300EAFA18 /* space_cadet.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = space_cadet.json; sourceTree = "<group>"; };
-		8D5498331FC8438400EAFA18 /* colemak_layout.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = colemak_layout.json; sourceTree = "<group>"; };
-		8D5498341FC8438400EAFA18 /* dvorak_cmd_qwerty_layout.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dvorak_cmd_qwerty_layout.json; sourceTree = "<group>"; };
-		8D5498351FC8438400EAFA18 /* vi_style_arrows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = vi_style_arrows.json; sourceTree = "<group>"; };
-		8D5498361FC8438400EAFA18 /* launch_new_Chrome_or_iTerm2_windows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = launch_new_Chrome_or_iTerm2_windows.json; sourceTree = "<group>"; };
-		8D5498371FC8438400EAFA18 /* exchange_underscore_and_backslash.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exchange_underscore_and_backslash.json; sourceTree = "<group>"; };
-		8D5498381FC8438400EAFA18 /* korean_pc.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = korean_pc.json; sourceTree = "<group>"; };
-		8D5498391FC8438500EAFA18 /* programmer_dvorak_cmd_qwerty_layout.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = programmer_dvorak_cmd_qwerty_layout.json; sourceTree = "<group>"; };
-		8D54983A1FC8438500EAFA18 /* virtual_machine.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = virtual_machine.json; sourceTree = "<group>"; };
-		8D54983B1FC8438500EAFA18 /* personal_wgj.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_wgj.json; sourceTree = "<group>"; };
-		8D54983C1FC8438500EAFA18 /* personal_apm1467.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_apm1467.json; sourceTree = "<group>"; };
-		8D54983D1FC8438500EAFA18 /* example_keyboard_type.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = example_keyboard_type.json; sourceTree = "<group>"; };
-		8D54983E1FC8438500EAFA18 /* amethyst.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = amethyst.json; sourceTree = "<group>"; };
-		8D54983F1FC8438500EAFA18 /* fine_volume_control.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fine_volume_control.json; sourceTree = "<group>"; };
-		8D5498401FC8438500EAFA18 /* caps_lock_enhancement.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = caps_lock_enhancement.json; sourceTree = "<group>"; };
-		8D5498411FC8438600EAFA18 /* shift.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = shift.json; sourceTree = "<group>"; };
-		8D5498421FC8438600EAFA18 /* czech_pc_shortcuts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = czech_pc_shortcuts.json; sourceTree = "<group>"; };
-		8D5498431FC8438600EAFA18 /* spacefn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = spacefn.json; sourceTree = "<group>"; };
-		8D5498441FC8438600EAFA18 /* swap_alt_cmd_in_autodesk_maya.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = swap_alt_cmd_in_autodesk_maya.json; sourceTree = "<group>"; };
-		8D5498451FC8438600EAFA18 /* touchcursor_mode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = touchcursor_mode.json; sourceTree = "<group>"; };
-		8D5498461FC8438600EAFA18 /* diamond_cursor.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = diamond_cursor.json; sourceTree = "<group>"; };
-		8D5498471FC8438600EAFA18 /* dos_style.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = dos_style.json; sourceTree = "<group>"; };
-		8D5498481FC8438600EAFA18 /* ctrl_arrows_to_option_arrows.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ctrl_arrows_to_option_arrows.json; sourceTree = "<group>"; };
-		8D5498491FC8438600EAFA18 /* example_select_input_source.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = example_select_input_source.json; sourceTree = "<group>"; };
-		8D54984A1FC8438600EAFA18 /* german_umlaut.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = german_umlaut.json; sourceTree = "<group>"; };
-		8D54984B1FC8438600EAFA18 /* personal_rubocoptero.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_rubocoptero.json; sourceTree = "<group>"; };
-		8D54984C1FC8438700EAFA18 /* personal_yqrashawn.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_yqrashawn.json; sourceTree = "<group>"; };
-		8D54984D1FC8438700EAFA18 /* hhkb_mode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = hhkb_mode.json; sourceTree = "<group>"; };
-		8D54984E1FC8438700EAFA18 /* fn_plus_plsemicolonquote_to_arrow_keys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = fn_plus_plsemicolonquote_to_arrow_keys.json; sourceTree = "<group>"; };
-		8D54984F1FC8438700EAFA18 /* modifiers_to_f-keys.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "modifiers_to_f-keys.json"; sourceTree = "<group>"; };
-		8D5498501FC8438700EAFA18 /* safari.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = safari.json; sourceTree = "<group>"; };
-		8D5498511FC8438700EAFA18 /* personal_tekezo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_tekezo.json; sourceTree = "<group>"; };
-		8D5498521FC8438700EAFA18 /* command_esc_to_command_grave_accent.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = command_esc_to_command_grave_accent.json; sourceTree = "<group>"; };
-		8D5498531FC8438700EAFA18 /* remote-desktop.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "remote-desktop.json"; sourceTree = "<group>"; };
-		8D5498541FC8438700EAFA18 /* safari_ignore_command_q.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = safari_ignore_command_q.json; sourceTree = "<group>"; };
-		8D5498551FC8438700EAFA18 /* swap_pound_and_hash.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = swap_pound_and_hash.json; sourceTree = "<group>"; };
-		8D5498561FC8438800EAFA18 /* application_window_tab_switch_with_right_cmd_hjklsemiquote.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = application_window_tab_switch_with_right_cmd_hjklsemiquote.json; sourceTree = "<group>"; };
-		8D5498571FC8438800EAFA18 /* jis_to_ascii.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = jis_to_ascii.json; sourceTree = "<group>"; };
-		8D5498581FC8438800EAFA18 /* anti_rsi_app_switch.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = anti_rsi_app_switch.json; sourceTree = "<group>"; };
-		8D5498591FC8438800EAFA18 /* numeric_keypad.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = numeric_keypad.json; sourceTree = "<group>"; };
-		8D54985A1FC8438800EAFA18 /* caps_lock_german.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = caps_lock_german.json; sourceTree = "<group>"; };
-		8D54985B1FC8438800EAFA18 /* change_grave_accent_to_escape.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = change_grave_accent_to_escape.json; sourceTree = "<group>"; };
-		8D54985C1FC8438800EAFA18 /* exchange_hyphen_and_underscore.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = exchange_hyphen_and_underscore.json; sourceTree = "<group>"; };
-		8D54985D1FC8438800EAFA18 /* personal_drazcmd.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = personal_drazcmd.json; sourceTree = "<group>"; };
-		8D54985E1FC8438800EAFA18 /* caps_and_return_to_ctrl.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = caps_and_return_to_ctrl.json; sourceTree = "<group>"; };
-		8D54985F1FC8438800EAFA18 /* russian.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = russian.json; sourceTree = "<group>"; };
-		8D5498601FC8438800EAFA18 /* control.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = control.json; sourceTree = "<group>"; };
-		8D5498611FC8438900EAFA18 /* launch_apps.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = launch_apps.json; sourceTree = "<group>"; };
-		8D5498621FC8438900EAFA18 /* terminal_navi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = terminal_navi.json; sourceTree = "<group>"; };
 		8D5839D91FCCA158009F9BBB /* Parameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
 		8D5839DB1FCCA214009F9BBB /* Triggers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Triggers.swift; sourceTree = "<group>"; };
 		8D5BE84F1FC63B8500297968 /* Keyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keyboard.swift; sourceTree = "<group>"; };
-		8D5BE8521FC64A3300297968 /* Entrada.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entrada.swift; sourceTree = "<group>"; };
 		8D6DF9BC1FC6DE6600F8882B /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
 		8D6DF9C11FC6E2AA00F8882B /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
@@ -218,7 +48,6 @@
 		8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTests.swift; sourceTree = "<group>"; };
 		8DB140F22095C33700A773B1 /* LadenArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LadenArray.swift; sourceTree = "<group>"; };
 		8DB140F42095E71600A773B1 /* LadenSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LadenSet.swift; sourceTree = "<group>"; };
-		8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownJSON.swift; sourceTree = "<group>"; };
 		8DC034F51FCAD23E00B06895 /* Mouse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mouse.swift; sourceTree = "<group>"; };
 		8DD85BE51FC63991006FA9B1 /* Karabiner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Karabiner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8DD85BF21FC639CE006FA9B1 /* macOS.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = macOS.xcconfig; sourceTree = "<group>"; };
@@ -227,6 +56,8 @@
 		8DD85BFA1FC639EF006FA9B1 /* Karabiner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Karabiner.h; sourceTree = "<group>"; };
 		8DD85BFC1FC63B2B006FA9B1 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		8DE47DFD2094FC87001918D4 /* Input.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input.swift; sourceTree = "<group>"; };
+		8DF12B1120979F2D007D996B /* AnyDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
+		8DF12B1320979FAB007D996B /* AnyCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,94 +100,6 @@
 		8D3463041FC77BDB0022E2A3 /* TestsData */ = {
 			isa = PBXGroup;
 			children = (
-				8D54983E1FC8438500EAFA18 /* amethyst.json */,
-				8D5498581FC8438800EAFA18 /* anti_rsi_app_switch.json */,
-				8D5498561FC8438800EAFA18 /* application_window_tab_switch_with_right_cmd_hjklsemiquote.json */,
-				8D54982A1FC8438300EAFA18 /* block_one_handed_combos.json */,
-				8D54985E1FC8438800EAFA18 /* caps_and_return_to_ctrl.json */,
-				8D5498401FC8438500EAFA18 /* caps_lock_enhancement.json */,
-				8D54985A1FC8438800EAFA18 /* caps_lock_german.json */,
-				8D54981A1FC8438100EAFA18 /* caps_lock.json */,
-				8D5498211FC8438200EAFA18 /* change_command_l.json */,
-				8D5498251FC8438200EAFA18 /* change_command_r.json */,
-				8D54985B1FC8438800EAFA18 /* change_grave_accent_to_escape.json */,
-				8D5498331FC8438400EAFA18 /* colemak_layout.json */,
-				8D5498161FC8438100EAFA18 /* command_arrows_to_ctrl_arrows.json */,
-				8D54982D1FC8438300EAFA18 /* command_arrows_to_option_arrows.json */,
-				8D5498521FC8438700EAFA18 /* command_esc_to_command_grave_accent.json */,
-				8D5498131FC8438100EAFA18 /* command_q.json */,
-				8D5498601FC8438800EAFA18 /* control.json */,
-				8D5498481FC8438600EAFA18 /* ctrl_arrows_to_option_arrows.json */,
-				8D5498261FC8438200EAFA18 /* ctrl_command_fn_letter_specials.json */,
-				8D5498421FC8438600EAFA18 /* czech_pc_shortcuts.json */,
-				8D5498121FC8438100EAFA18 /* delete.json */,
-				8D5498461FC8438600EAFA18 /* diamond_cursor.json */,
-				8D5498471FC8438600EAFA18 /* dos_style.json */,
-				8D5498341FC8438400EAFA18 /* dvorak_cmd_qwerty_layout.json */,
-				8D54982B1FC8438300EAFA18 /* dvorak_layout.json */,
-				8D54981B1FC8438200EAFA18 /* emacs_key_bindings.json */,
-				8D54980F1FC8438100EAFA18 /* escape.json */,
-				8D54980B1FC8438100EAFA18 /* example_device.json */,
-				8D54982C1FC8438300EAFA18 /* example_input_source.json */,
-				8D54983D1FC8438500EAFA18 /* example_keyboard_type.json */,
-				8D5498491FC8438600EAFA18 /* example_select_input_source.json */,
-				8D5498101FC8438100EAFA18 /* exchange_command_backspace_and_option_backspace.json */,
-				8D54981C1FC8438200EAFA18 /* exchange_command_tab_and_control_tab.json */,
-				8D54985C1FC8438800EAFA18 /* exchange_hyphen_and_underscore.json */,
-				8D54981D1FC8438200EAFA18 /* exchange_numbers_and_symbols.json */,
-				8D5498231FC8438200EAFA18 /* exchange_semicolon_and_colon.json */,
-				8D5498371FC8438400EAFA18 /* exchange_underscore_and_backslash.json */,
-				8D54983F1FC8438500EAFA18 /* fine_volume_control.json */,
-				8D5498111FC8438100EAFA18 /* fn_plus_numbers_to_function_keys.json */,
-				8D54984E1FC8438700EAFA18 /* fn_plus_plsemicolonquote_to_arrow_keys.json */,
-				8D54981E1FC8438200EAFA18 /* german_pc_shortcuts.json */,
-				8D54984A1FC8438600EAFA18 /* german_umlaut.json */,
-				8D54984D1FC8438700EAFA18 /* hhkb_mode.json */,
-				8D54982E1FC8438300EAFA18 /* japanese.json */,
-				8D5498571FC8438800EAFA18 /* jis_to_ascii.json */,
-				8D5498381FC8438400EAFA18 /* korean_pc.json */,
-				8D5498611FC8438900EAFA18 /* launch_apps.json */,
-				8D5498361FC8438400EAFA18 /* launch_new_Chrome_or_iTerm2_windows.json */,
-				8D5498241FC8438200EAFA18 /* lshift_to_escape.json */,
-				8D54984F1FC8438700EAFA18 /* modifiers_to_f-keys.json */,
-				8D5498221FC8438200EAFA18 /* mu_mode.json */,
-				8D54980C1FC8438100EAFA18 /* neo2.json */,
-				8D5498311FC8438300EAFA18 /* nonbreaking_space.json */,
-				8D5498591FC8438800EAFA18 /* numeric_keypad.json */,
-				8D54981F1FC8438200EAFA18 /* pc_shortcuts.json */,
-				8D54983C1FC8438500EAFA18 /* personal_apm1467.json */,
-				8D54985D1FC8438800EAFA18 /* personal_drazcmd.json */,
-				8D5498301FC8438300EAFA18 /* personal_jeebak.json */,
-				8D54984B1FC8438600EAFA18 /* personal_rubocoptero.json */,
-				8D5498511FC8438700EAFA18 /* personal_tekezo.json */,
-				8D54983B1FC8438500EAFA18 /* personal_wgj.json */,
-				8D54984C1FC8438700EAFA18 /* personal_yqrashawn.json */,
-				8D5498271FC8438200EAFA18 /* pok3r-escape.json */,
-				8D5498191FC8438100EAFA18 /* pok3r-media.json */,
-				8D5498391FC8438500EAFA18 /* programmer_dvorak_cmd_qwerty_layout.json */,
-				8D5498531FC8438700EAFA18 /* remote-desktop.json */,
-				8D54985F1FC8438800EAFA18 /* russian.json */,
-				8D5498541FC8438700EAFA18 /* safari_ignore_command_q.json */,
-				8D5498501FC8438700EAFA18 /* safari.json */,
-				8D5498411FC8438600EAFA18 /* shift.json */,
-				8D5498321FC8438300EAFA18 /* space_cadet.json */,
-				8D54980E1FC8438100EAFA18 /* spacebar_changes.json */,
-				8D5498281FC8438200EAFA18 /* spacebar.json */,
-				8D5498431FC8438600EAFA18 /* spacefn.json */,
-				8D5498441FC8438600EAFA18 /* swap_alt_cmd_in_autodesk_maya.json */,
-				8D5498551FC8438700EAFA18 /* swap_pound_and_hash.json */,
-				8D5498141FC8438100EAFA18 /* swap_yen_and_backslash.json */,
-				8D5498171FC8438100EAFA18 /* swap-paren-and-sqbrackets.json */,
-				8D5498621FC8438900EAFA18 /* terminal_navi.json */,
-				8D5498201FC8438200EAFA18 /* tmux_prefix.json */,
-				8D5498451FC8438600EAFA18 /* touchcursor_mode.json */,
-				8D54982F1FC8438300EAFA18 /* typematrix_bepo_cut_copy_paste_fn_shortcuts.json */,
-				8D5498151FC8438100EAFA18 /* vi_mode.json */,
-				8D5498351FC8438400EAFA18 /* vi_style_arrows.json */,
-				8D5498291FC8438300EAFA18 /* vim_style_escape.json */,
-				8D54980D1FC8438100EAFA18 /* vimium.json */,
-				8D54983A1FC8438500EAFA18 /* virtual_machine.json */,
-				8D5498181FC8438100EAFA18 /* xcode.json */,
 			);
 			path = TestsData;
 			sourceTree = "<group>";
@@ -365,7 +108,6 @@
 			isa = PBXGroup;
 			children = (
 				8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */,
-				8D5BE8521FC64A3300297968 /* Entrada.swift */,
 				8DE47DFD2094FC87001918D4 /* Input.swift */,
 				8D6DF9C11FC6E2AA00F8882B /* Condition.swift */,
 				8D5839DB1FCCA214009F9BBB /* Triggers.swift */,
@@ -387,7 +129,9 @@
 		8DBE0EE51FC6FD45004658B4 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				8DBE0EE61FC6FD60004658B4 /* UnknownJSON.swift */,
+				8DF12B1320979FAB007D996B /* AnyCodable.swift */,
+				8DF12B1120979F2D007D996B /* AnyDecodable.swift */,
+				8D1216B52097976B0057F222 /* AnyEncodable.swift */,
 				8DB140F22095C33700A773B1 /* LadenArray.swift */,
 				8DB140F42095E71600A773B1 /* LadenSet.swift */,
 			);
@@ -556,91 +300,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D67FB2E1FCE2579005E3D72 /* caps_lock_enhancement.json in Resources */,
-				8D67FB331FCE2579005E3D72 /* change_grave_accent_to_escape.json in Resources */,
-				8D67FB391FCE2579005E3D72 /* control.json in Resources */,
-				8D67FB521FCE2579005E3D72 /* german_umlaut.json in Resources */,
-				8D67FB541FCE2579005E3D72 /* japanese.json in Resources */,
-				8D67FB2A1FCE2579005E3D72 /* anti_rsi_app_switch.json in Resources */,
-				8D67FB491FCE2579005E3D72 /* exchange_command_tab_and_control_tab.json in Resources */,
-				8D67FB3A1FCE2579005E3D72 /* ctrl_arrows_to_option_arrows.json in Resources */,
-				8D67FB601FCE2579005E3D72 /* personal_apm1467.json in Resources */,
-				8D67FB551FCE2579005E3D72 /* jis_to_ascii.json in Resources */,
-				8D67FB421FCE2579005E3D72 /* emacs_key_bindings.json in Resources */,
-				8D67FB731FCE2579005E3D72 /* swap_alt_cmd_in_autodesk_maya.json in Resources */,
-				8D67FB351FCE2579005E3D72 /* command_arrows_to_ctrl_arrows.json in Resources */,
-				8D67FB4B1FCE2579005E3D72 /* exchange_numbers_and_symbols.json in Resources */,
-				8D67FB431FCE2579005E3D72 /* escape.json in Resources */,
-				8D67FB2D1FCE2579005E3D72 /* caps_and_return_to_ctrl.json in Resources */,
-				8D67FB591FCE2579005E3D72 /* lshift_to_escape.json in Resources */,
-				8D67FB771FCE2579005E3D72 /* terminal_navi.json in Resources */,
-				8D67FB451FCE2579005E3D72 /* example_input_source.json in Resources */,
-				8D67FB621FCE2579005E3D72 /* personal_jeebak.json in Resources */,
-				8D67FB4D1FCE2579005E3D72 /* exchange_underscore_and_backslash.json in Resources */,
-				8D67FB651FCE2579005E3D72 /* personal_wgj.json in Resources */,
-				8D67FB681FCE2579005E3D72 /* pok3r-media.json in Resources */,
-				8D67FB381FCE2579005E3D72 /* command_q.json in Resources */,
-				8D67FB6A1FCE2579005E3D72 /* remote-desktop.json in Resources */,
-				8D67FB761FCE2579005E3D72 /* swap-paren-and-sqbrackets.json in Resources */,
-				8D67FB5F1FCE2579005E3D72 /* pc_shortcuts.json in Resources */,
-				8D67FB791FCE2579005E3D72 /* touchcursor_mode.json in Resources */,
-				8D67FB691FCE2579005E3D72 /* programmer_dvorak_cmd_qwerty_layout.json in Resources */,
-				8D67FB5B1FCE2579005E3D72 /* mu_mode.json in Resources */,
-				8D67FB461FCE2579005E3D72 /* example_keyboard_type.json in Resources */,
-				8D67FB6F1FCE2579005E3D72 /* space_cadet.json in Resources */,
-				8D67FB3C1FCE2579005E3D72 /* czech_pc_shortcuts.json in Resources */,
-				8D67FB341FCE2579005E3D72 /* colemak_layout.json in Resources */,
-				8D67FB721FCE2579005E3D72 /* spacefn.json in Resources */,
-				8D67FB6D1FCE2579005E3D72 /* safari.json in Resources */,
-				8D67FB7C1FCE2579005E3D72 /* vi_style_arrows.json in Resources */,
-				8D67FB2F1FCE2579005E3D72 /* caps_lock_german.json in Resources */,
-				8D67FB4F1FCE2579005E3D72 /* fn_plus_numbers_to_function_keys.json in Resources */,
-				8D67FB501FCE2579005E3D72 /* fn_plus_plsemicolonquote_to_arrow_keys.json in Resources */,
-				8D67FB3B1FCE2579005E3D72 /* ctrl_command_fn_letter_specials.json in Resources */,
-				8D67FB411FCE2579005E3D72 /* dvorak_layout.json in Resources */,
-				8D67FB2C1FCE2579005E3D72 /* block_one_handed_combos.json in Resources */,
-				8D67FB6C1FCE2579005E3D72 /* safari_ignore_command_q.json in Resources */,
-				8D67FB4C1FCE2579005E3D72 /* exchange_semicolon_and_colon.json in Resources */,
-				8D67FB301FCE2579005E3D72 /* caps_lock.json in Resources */,
-				8D67FB7B1FCE2579005E3D72 /* vi_mode.json in Resources */,
-				8D67FB3E1FCE2579005E3D72 /* diamond_cursor.json in Resources */,
-				8D67FB6E1FCE2579005E3D72 /* shift.json in Resources */,
-				8D67FB401FCE2579005E3D72 /* dvorak_cmd_qwerty_layout.json in Resources */,
-				8D67FB7A1FCE2579005E3D72 /* typematrix_bepo_cut_copy_paste_fn_shortcuts.json in Resources */,
-				8D67FB711FCE2579005E3D72 /* spacebar.json in Resources */,
-				8D67FB6B1FCE2579005E3D72 /* russian.json in Resources */,
-				8D67FB571FCE2579005E3D72 /* launch_apps.json in Resources */,
-				8D67FB531FCE2579005E3D72 /* hhkb_mode.json in Resources */,
-				8D67FB471FCE2579005E3D72 /* example_select_input_source.json in Resources */,
-				8D67FB5E1FCE2579005E3D72 /* numeric_keypad.json in Resources */,
-				8D67FB5A1FCE2579005E3D72 /* modifiers_to_f-keys.json in Resources */,
-				8D67FB511FCE2579005E3D72 /* german_pc_shortcuts.json in Resources */,
-				8D67FB641FCE2579005E3D72 /* personal_tekezo.json in Resources */,
-				8D67FB361FCE2579005E3D72 /* command_arrows_to_option_arrows.json in Resources */,
-				8D67FB631FCE2579005E3D72 /* personal_rubocoptero.json in Resources */,
-				8D67FB3D1FCE2579005E3D72 /* delete.json in Resources */,
-				8D67FB741FCE2579005E3D72 /* swap_pound_and_hash.json in Resources */,
-				8D67FB661FCE2579005E3D72 /* personal_yqrashawn.json in Resources */,
-				8D67FB7E1FCE2579005E3D72 /* vimium.json in Resources */,
-				8D67FB291FCE2579005E3D72 /* amethyst.json in Resources */,
-				8D67FB561FCE2579005E3D72 /* korean_pc.json in Resources */,
-				8D67FB4A1FCE2579005E3D72 /* exchange_hyphen_and_underscore.json in Resources */,
-				8D67FB5D1FCE2579005E3D72 /* nonbreaking_space.json in Resources */,
-				8D67FB441FCE2579005E3D72 /* example_device.json in Resources */,
-				8D67FB2B1FCE2579005E3D72 /* application_window_tab_switch_with_right_cmd_hjklsemiquote.json in Resources */,
-				8D67FB781FCE2579005E3D72 /* tmux_prefix.json in Resources */,
-				8D67FB321FCE2579005E3D72 /* change_command_r.json in Resources */,
-				8D67FB671FCE2579005E3D72 /* pok3r-escape.json in Resources */,
-				8D67FB5C1FCE2579005E3D72 /* neo2.json in Resources */,
-				8D67FB371FCE2579005E3D72 /* command_esc_to_command_grave_accent.json in Resources */,
-				8D67FB751FCE2579005E3D72 /* swap_yen_and_backslash.json in Resources */,
-				8D67FB3F1FCE2579005E3D72 /* dos_style.json in Resources */,
-				8D67FB4E1FCE2579005E3D72 /* fine_volume_control.json in Resources */,
-				8D67FB611FCE2579005E3D72 /* personal_drazcmd.json in Resources */,
-				8D67FB581FCE2579005E3D72 /* launch_new_Chrome_or_iTerm2_windows.json in Resources */,
-				8D67FB311FCE2579005E3D72 /* change_command_l.json in Resources */,
-				8D67FB701FCE2579005E3D72 /* spacebar_changes.json in Resources */,
-				8D67FB481FCE2579005E3D72 /* exchange_command_backspace_and_option_backspace.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,7 +328,10 @@
 				8DB140F52095E71600A773B1 /* LadenSet.swift in Sources */,
 				8DC034F61FCAD23E00B06895 /* Mouse.swift in Sources */,
 				8DB140F32095C33700A773B1 /* LadenArray.swift in Sources */,
+				8DF12B1220979F2D007D996B /* AnyDecodable.swift in Sources */,
 				8DE47DFE2094FC87001918D4 /* Input.swift in Sources */,
+				8D1216B62097976B0057F222 /* AnyEncodable.swift in Sources */,
+				8DF12B1420979FAB007D996B /* AnyCodable.swift in Sources */,
 				8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */,
 				8D5BE8501FC63B8500297968 /* Keyboard.swift in Sources */,
 				8DD85BFD1FC63B2B006FA9B1 /* File.swift in Sources */,
