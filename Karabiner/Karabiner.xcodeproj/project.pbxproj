@@ -12,6 +12,8 @@
 		8D5BE8501FC63B8500297968 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5BE84F1FC63B8500297968 /* Keyboard.swift */; };
 		8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BC1FC6DE6600F8882B /* Rule.swift */; };
 		8D6DF9BF1FC6DFE000F8882B /* Manipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */; };
+		8D78969B20A95AFD00266A78 /* InputTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78969A20A95AFD00266A78 /* InputTests.swift */; };
+		8D78969E20A96C1900266A78 /* InputCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D78969D20A96C1900266A78 /* InputCodable.swift */; };
 		8DB140F32095C33700A773B1 /* LadenArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB140F22095C33700A773B1 /* LadenArray.swift */; };
 		8DB140F52095E71600A773B1 /* LadenSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DB140F42095E71600A773B1 /* LadenSet.swift */; };
 		8DC034F61FCAD23E00B06895 /* Mouse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DC034F51FCAD23E00B06895 /* Mouse.swift */; };
@@ -43,6 +45,8 @@
 		8D6DF9BC1FC6DE6600F8882B /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Manipulator.swift; sourceTree = "<group>"; };
 		8D6DF9C11FC6E2AA00F8882B /* Condition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Condition.swift; sourceTree = "<group>"; };
+		8D78969A20A95AFD00266A78 /* InputTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputTests.swift; sourceTree = "<group>"; };
+		8D78969D20A96C1900266A78 /* InputCodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCodable.swift; sourceTree = "<group>"; };
 		8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarcosTests.swift; sourceTree = "<group>"; };
 		8D915DC31FC6642000C5FF38 /* Output.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Output.swift; sourceTree = "<group>"; };
 		8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONTests.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 			children = (
 				8D8CF4E71FCF490D00B5EFB5 /* MarcosTests.swift */,
 				8D9EC1D51FD92E2C001C4D36 /* JSONTests.swift */,
+				8D78969720A95A5800266A78 /* Manipulator */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -109,6 +114,7 @@
 			children = (
 				8D6DF9BE1FC6DFE000F8882B /* Manipulator.swift */,
 				8DE47DFD2094FC87001918D4 /* Input.swift */,
+				8D78969D20A96C1900266A78 /* InputCodable.swift */,
 				8D6DF9C11FC6E2AA00F8882B /* Condition.swift */,
 				8D5839DB1FCCA214009F9BBB /* Triggers.swift */,
 				8D915DC31FC6642000C5FF38 /* Output.swift */,
@@ -124,6 +130,14 @@
 				8DC034F51FCAD23E00B06895 /* Mouse.swift */,
 			);
 			path = Devices;
+			sourceTree = "<group>";
+		};
+		8D78969720A95A5800266A78 /* Manipulator */ = {
+			isa = PBXGroup;
+			children = (
+				8D78969A20A95AFD00266A78 /* InputTests.swift */,
+			);
+			path = Manipulator;
 			sourceTree = "<group>";
 		};
 		8DBE0EE51FC6FD45004658B4 /* Utils */ = {
@@ -268,7 +282,7 @@
 				TargetAttributes = {
 					8D3462F61FC778DA0022E2A3 = {
 						CreatedOnToolsVersion = 9.1;
-						LastSwiftMigration = 0910;
+						LastSwiftMigration = 0930;
 						ProvisioningStyle = Automatic;
 					};
 					8DD85BE41FC63991006FA9B1 = {
@@ -317,6 +331,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D78969B20A95AFD00266A78 /* InputTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +350,7 @@
 				8D6DF9BD1FC6DE6600F8882B /* Rule.swift in Sources */,
 				8D5BE8501FC63B8500297968 /* Keyboard.swift in Sources */,
 				8DD85BFD1FC63B2B006FA9B1 /* File.swift in Sources */,
+				8D78969E20A96C1900266A78 /* InputCodable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
