@@ -42,7 +42,7 @@ public struct Manipulator: Codable {
     }
 }
 
-public extension Manipulator {
+extension Manipulator {
     public enum Kind: String, Codable {
         case basic
     }

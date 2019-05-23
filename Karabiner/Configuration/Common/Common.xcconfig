@@ -4,9 +4,9 @@ DYLIB_COMPATIBILITY_VERSION = $(DYLIB_CURRENT_VERSION)
 CURRENT_PROJECT_VERSION = 1     // Build number
 
 // Swift
-SWIFT_VERSION = 4.0
+SWIFT_VERSION = 5
 
 // User-Generated
 BUNDLE_SIGNATURE = MSDC
 KARABINER_NAME = Karabiner
-KARABINER_ID = me.dehesa.karabiner
+KARABINER_ID = io.dehesa.keyboard.karabiner
